@@ -4,7 +4,7 @@ Plugin Name: LearnPress
 Plugin URI: http://thimpress.com/learnpress
 Description: A plugin that allows you to create and manage online courses
 Author: thimpress
-Version: 1.0
+Version: 0.9.1
 Author URI: http://thimpress.com
 */
 // Prevent loading this file directly
