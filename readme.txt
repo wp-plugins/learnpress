@@ -61,10 +61,14 @@ You can check out "Documentation" in the LearnPress official site:
 
 == Screenshots ==
 
-1. LearnPress Create Course Layout.
-2. LearnPress Settings Layout.
-3. LearnPress Course Front-end.
-4. LearnPress Courses Statistics.
+1. LearnPress Course Front-end.
+2. LearnPress Create Course Curriculum Layout.
+3. LearnPress Settings > General.
+4. LearnPress Settings > Pages.
+5. LearnPress Settings > Payments.
+6. LearnPress Settings > Emails.
+7. LearnPress Statistics.
+8. LearnPress Add-ons.
 
 == Changelog ==
 
