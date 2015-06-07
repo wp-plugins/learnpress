@@ -597,7 +597,8 @@ function learn_press_restrict_items( $views ) {
 		}
 
 	}
-
+	// remove view 'mine'
+	unset( $views['mine'] );
 	return $views;
 }
 
