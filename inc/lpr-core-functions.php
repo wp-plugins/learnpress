@@ -555,7 +555,6 @@ function learn_press_restrict_items( $views ) {
 	$author    = get_current_user_id();
 	$new_views = array(
 		'all'     => __( 'All', 'learn_press' ),
-		'mine'    => __( 'Mine', 'learn_press' ),
 		'publish' => __( 'Published', 'learn_press' ),
 		'private' => __( 'Private', 'learn_press' ),
 		'pending' => __( 'Pending Review', 'learn_press' ),
@@ -576,9 +575,6 @@ function learn_press_restrict_items( $views ) {
 			$query['all_posts'] = 1;
 			$class              = ( get_query_var( 'all_posts' ) == 1 || ( get_query_var( 'post_status' ) == '' && get_query_var( 'author' ) == '' ) ) ? ' class="current"' : '';
 
-		} elseif ( $view == 'mine' ) {
-			$query['author'] = $author;
-			$class           = ( get_query_var( 'author' ) == $author ) ? ' class="current"' : '';
 		} else {
 			$query['post_status'] = $view;
 			$class                = ( get_query_var( 'post_status' ) == $view ) ? ' class="current"' : '';
