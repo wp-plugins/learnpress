@@ -1,4 +1,4 @@
-===  Plugin Name ===
+=== LearnPress - WordPress LMS Plugin ===
 Contributors: thimpress, halink0803, thongta, kendy73, tunnhn
 Donate link: 
 Tags: lms, elearning, e-learning, learning management system, education, course, courses, quiz, quizzes, questions, training, guru, sell courses
