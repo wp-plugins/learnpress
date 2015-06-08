@@ -1367,6 +1367,21 @@ function learn_press_count_students_enrolled( $course_id = null ) {
 }
 
 /**
+ * count the number of students has passed a course
+ *
+ * @author  Ken
+ *
+ * @param   int $course_id
+ *
+ * @return  int
+ */
+function learn_press_count_students_passed( $course_id = null ) {
+	$course_id = learn_press_get_course_id( $course_id );
+	$count = ( $users = get_post_meta( $course_id, '_lpr_user_finished', true ) ) ? sizeof( $users ) : 0;
+	return apply_filters( 'learn_press_count_student_passed_course', $count, $course_id );
+}
+
+/**
  * get current status of user's course
  *
  * @author  Tunn
@@ -1921,11 +1936,11 @@ function learn_press_get_course_passing_condition( $course_id = null ) {
 }
 
 function learn_press_user_has_enrolled_course( $course_id = null, $user_id = null ){
-    $course_id = learn_press_get_course_id( $course_id );
-    if( ! $user_id ) $user_id = get_current_user_id();
+	$course_id = learn_press_get_course_id( $course_id );
+	if( ! $user_id ) $user_id = get_current_user_id();
 
-    $courses = learn_press_get_user_courses( $user_id );
-    return is_array( $courses ) && in_array( $course_id, $courses );
+	$courses = learn_press_get_user_courses( $user_id );
+	return is_array( $courses ) && in_array( $course_id, $courses );
 }
 
 function learn_press_get_user_courses( $user_id ) {
@@ -2092,18 +2107,18 @@ function learn_press_user_has_passed_course( $course_id = null, $user_id = null 
 }
 
 function learn_press_get_course_result( $course_id = null, $user_id = null ){
-    $course_id = learn_press_get_course_id( $course_id );
-    if ( !$user_id ) $user_id = get_current_user_id();
-    if ( !$course_id || !$user_id ) return 0;
+	$course_id = learn_press_get_course_id( $course_id );
+	if ( !$user_id ) $user_id = get_current_user_id();
+	if ( !$course_id || !$user_id ) return 0;
 
-    if ( ( get_post_meta( $course_id, '_lpr_course_final', true ) == 'yes' ) && ( $quiz = lpr_get_final_quiz( $course_id ) ) ) {
-        $passed            = learn_press_quiz_evaluation( $quiz, $user_id );
-        //$passing_condition = learn_press_get_course_passing_condition( $course_id );
-    } else {
-        $passed            = lpr_course_evaluation( $course_id );
-        //$passing_condition = 0;
-    }
-    return $passed;
+	if ( ( get_post_meta( $course_id, '_lpr_course_final', true ) == 'yes' ) && ( $quiz = lpr_get_final_quiz( $course_id ) ) ) {
+		$passed            = learn_press_quiz_evaluation( $quiz, $user_id );
+		//$passing_condition = learn_press_get_course_passing_condition( $course_id );
+	} else {
+		$passed            = lpr_course_evaluation( $course_id );
+		//$passing_condition = 0;
+	}
+	return $passed;
 }
 
 /**
@@ -2127,9 +2142,9 @@ if ( !empty( $_REQUEST['payment_method'] ) ) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function learn_press_admin_js_template() {
-    if( 'lpr_lesson' == get_post_type() ) {
-        require_once LPR_PLUGIN_PATH . '/inc/lpr-js-template.php';
-    }
+	if( 'lpr_lesson' == get_post_type() ) {
+		require_once LPR_PLUGIN_PATH . '/inc/lpr-js-template.php';
+	}
 }
 
 add_action( 'admin_print_scripts', 'learn_press_admin_js_template' );

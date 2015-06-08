@@ -552,7 +552,6 @@ function learn_press_pre_get_items( $query ) {
  */
 function learn_press_restrict_items( $views ) {
 	$post_type = get_query_var( 'post_type' );
-	$author    = get_current_user_id();
 	$new_views = array(
 		'all'     => __( 'All', 'learn_press' ),
 		'publish' => __( 'Published', 'learn_press' ),
@@ -994,7 +993,6 @@ add_action( 'transition_post_status', 'learn_press_publish_course', 10, 3 );
  * @return WP_Query
  */
 function learn_press_get_enrolled_courses( $user_id ) {
-	// query courses
 	$pid = get_user_meta( $user_id, '_lpr_user_course', true );
 	if ( !$pid ) {
 		$pid = array( 0 );
@@ -1004,6 +1002,46 @@ function learn_press_get_enrolled_courses( $user_id ) {
 		'post__in'            => $pid,
 		'post_status'         => 'publish',
 		'ignore_sticky_posts' => true,
+		'posts_per_page'      => - 1
+	);
+	$my_query  = new WP_Query( $arr_query );
+	return $my_query;
+}
+
+/**
+ * @param $user_id
+ *
+ * @return WP_Query
+ */
+function learn_press_get_passed_courses( $user_id ) {
+	$pid = get_user_meta( $user_id, '_lpr_course_finished', true );
+	if ( !$pid ) {
+		$pid = array( 0 );
+	}
+	$arr_query = array(
+		'post_type'           => 'lpr_course',
+		'post__in'            => $pid,
+		'post_status'         => 'publish',
+		'ignore_sticky_posts' => true,
+		'posts_per_page'      => - 1
+	);
+	$my_query  = new WP_Query( $arr_query );
+	return $my_query;
+}
+
+/**
+ * @param $user_id
+ *
+ * @return WP_Query
+ */
+function learn_press_get_own_courses( $user_id ) {
+
+	$arr_query = array(
+		'post_type'           => 'lpr_course',
+		'post_author'         => $user_id,
+		'post_status'         => 'publish',
+		'ignore_sticky_posts' => true,
+		'posts_per_page'      => - 1
 	);
 	$my_query  = new WP_Query( $arr_query );
 	return $my_query;
