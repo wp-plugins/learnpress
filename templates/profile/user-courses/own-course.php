@@ -4,9 +4,13 @@
 	the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
 	do_action( 'learn_press_after_own_course_title' );
 
-	do_action( 'learn_press_before_own_course_content' );
-	the_excerpt();
-	do_action( 'learn_press_after_own_course_content' );
+	do_action( 'learn_press_before_own_course_price' );
+	printf(
+		'<p class="course-price">%s: %d</p>',
+		__( 'Price', 'learn_press' ),
+		learn_press_get_course_price( null, true )
+	);
+	do_action( 'learn_press_after_own_course_price' );
 
 	do_action( 'learn_press_before_student_enrolled' );
 	printf(
