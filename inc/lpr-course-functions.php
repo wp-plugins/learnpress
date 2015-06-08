@@ -1892,6 +1892,12 @@ function learn_press_finish_course( $course_id = null, $user_id = null ) {
 	$course_finished   = array_unique( $course_finished );
 	update_user_meta( $user_id, '_lpr_course_finished', $course_finished );
 
+	$user_finished = get_post_meta( $course_id, '_lpr_user_finished', true );
+	if( ! $user_finished ) $user_finished = array();
+	$user_finished[] = $user_id;
+	update_post_meta( $course_id, '_lpr_user_finished', $user_finished );
+
+
 	$lesson_quiz = learn_press_get_lessons_quizzes( $course_id, false );
 
 	if ( $lesson_quiz ) foreach ( $lesson_quiz as $post ) {

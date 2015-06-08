@@ -334,11 +334,34 @@ if ( !class_exists( 'LPR_AJAX' ) ) {
 			if ( !$user_id || !$lesson_id ) {
 				wp_die( __( 'Access denied!', 'learn_press' ) );
 			}
+			$response = array();
 			if ( learn_press_mark_lesson_complete( $lesson_id, $user_id ) ) {
-				$post = get_post( $lesson_id );
-				setup_postdata( $post );
-				learn_press_get_template( "course/content.php" );
+				$course_id = learn_press_get_course_by_lesson( $lesson_id );
+				$lessons = learn_press_get_lessons_in_course( $course_id );
+				$lesson_completed = get_user_meta( $user_id, '_lpr_lesson_completed', true );
+				$lesson_completed = ! empty( $lesson_completed[$course_id] ) ? $lesson_completed[$course_id] : array();
+
+				if( $lessons ){
+					if( false !== ( $pos = array_search( $lesson_id, $lessons ) ) ){
+						$loop = ( $pos == count( $lessons ) - 1 ) ? 0 : $pos + 1;
+						$infinite = 0;
+						$max = count( $lessons );
+
+						while( in_array( $lessons[$loop], $lesson_completed ) && ( $lessons[$loop] != $lesson_id ) ){
+							$loop++;
+							if( $loop == $max ) $loop = 0;
+							if( $infinite > $max ) break;
+						}
+						if( $lessons[$loop] != $lesson_id ){
+							$response['url'] = learn_press_get_course_lesson_permalink( $lessons[$loop], $course_id );
+						}else{
+							$response['url'] = learn_press_get_course_lesson_permalink( $lesson_id, $course_id );
+						}
+					}
+				}
 			}
+
+			learn_press_send_json( $response );
 			die;
 		}
 
@@ -456,6 +479,13 @@ if ( !class_exists( 'LPR_AJAX' ) ) {
 				if ( false !== ( $position = array_search( $course_id, $course_finished ) ) ) {
 					unset( $course_finished[$position] );
 					update_user_meta( $user_id, '_lpr_course_finished', $course_finished );
+				}
+			}
+			$user_finished = get_post_meta( $course_id, '_lpr_user_finished', true );
+			if ( $user_finished ) {
+				if ( false !== ( $position = array_search( $user_id, $user_finished ) ) ) {
+					unset( $user_finished[$position] );
+					update_post_meta( $course_id, '_lpr_user_finished', $user_finished );
 				}
 			}
 
