@@ -59,7 +59,7 @@ We are developing and improving LearnPress day by day and bringing new features 
 LearnPress is a plugin to create a LMS website, to spread out course, or sell course.  
 
 = How can I create a course? =  
-You can check out "Documentation" in the LearnPress official site:  
+You can check out "Documentation" in the [LearnPress official site](http://docs.thimpress.com/learnpress/).  
 
 == Screenshots ==  
 
