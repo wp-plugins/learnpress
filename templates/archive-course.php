@@ -25,7 +25,7 @@ get_header(); ?>
 			endwhile;
 
 			// Previous/next page navigation.
-			thim_course_paging_nav();
+			learn_press_course_paging_nav();
 		endif;
 		?>
 

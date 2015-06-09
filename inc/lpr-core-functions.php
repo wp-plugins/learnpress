@@ -109,12 +109,12 @@ function learn_press_update_user_course( $user_id, $course_id ) {
 
 
 /* nav */
-if ( !function_exists( 'thim_course_paging_nav' ) ) :
+if ( !function_exists( 'learn_press_course_paging_nav' ) ) :
 
 	/**
 	 * Display navigation to next/previous set of posts when applicable.
 	 */
-	function thim_course_paging_nav() {
+	function learn_press_course_paging_nav() {
 		if ( $GLOBALS['wp_query']->max_num_pages < 2 ) {
 			return;
 		}
@@ -159,57 +159,6 @@ if ( !function_exists( 'thim_course_paging_nav' ) ) :
 
 endif;
 
-
-function course_breadcrumb() {
-	global $wp_query, $post;
-	$home_link = home_url( '/' );
-	// Start the UL
-	echo '<ul class="ulbreadcrumbs" itemprop="breadcrumb">';
-	echo '<li><a href="' . home_url() . '" class="home">' . __( "Home", 'thim' ) . '</a></li>';
-	if ( is_category() ) {
-		$catTitle = single_cat_title( "", false );
-		$cat      = get_cat_ID( $catTitle );
-		echo '<li>' . get_category_parents( $cat, TRUE, "" ) . '</li>';
-	} elseif ( is_archive() && !is_category() ) {
-		//echo '<li>' . __( 'Archives', 'thim' ).'</li>';
-	} elseif ( is_search() ) {
-		echo "<li> Search Result  </li>";
-	} elseif ( is_404() ) {
-		echo "<li> 404 Not Found  </li>";
-	} elseif ( is_single( $post ) ) {
-		echo '  <li> ' . get_the_title() . ' </li>';
-	} elseif ( is_page() ) {
-		$post = $wp_query->get_queried_object();
-
-		if ( $post->post_parent == 0 ) {
-
-			echo "<li><a href='#'>" . the_title( '', '', FALSE ) . "</a></li>";
-		} else {
-			$ancestors = array_reverse( get_post_ancestors( $post->ID ) );
-			array_push( $ancestors, $post->ID );
-
-			foreach ( $ancestors as $ancestor ) {
-				if ( $ancestor != end( $ancestors ) ) {
-					echo '<li><a href="' . get_permalink( $ancestor ) . '">' . strip_tags( apply_filters( 'single_post_title', get_the_title( $ancestor ) ) ) . '</a></li>';
-				} else {
-					echo '<li>' . strip_tags( apply_filters( 'single_post_title', get_the_title( $ancestor ) ) ) . '</li>';
-				}
-			}
-		}
-	} elseif ( is_attachment() ) {
-		$parent = get_post( $post->post_parent );
-		if ( $parent->post_type == 'page' || $parent->post_type == 'post' ) {
-			$cat = get_the_category( $parent->ID );
-			$cat = $cat[0];
-			echo get_category_parents( $cat, true, ' ' );
-		}
-
-		echo '<li><a href="' . get_permalink( $parent ) . '">' . $parent->post_title . '</a></li>';
-		echo get_the_title();
-	}
-	// End the UL
-	echo "</ul>";
-}
 
 /**
  * Function Insert or update Order
