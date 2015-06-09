@@ -16,24 +16,17 @@ if ( !defined( 'ABSPATH' ) ) {
 function learn_press_get_ip() {
 	//Just get the headers if we can or else use the SERVER global
 	if ( function_exists( 'apache_request_headers' ) ) {
-
 		$headers = apache_request_headers();
-
 	} else {
-
 		$headers = $_SERVER;
-
 	}
-
 	//Get the forwarded IP if it exists
 	if ( array_key_exists( 'X-Forwarded-For', $headers ) &&
 		(
 			filter_var( $headers['X-Forwarded-For'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ||
 			filter_var( $headers['X-Forwarded-For'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) )
 	) {
-
 		$the_ip = $headers['X-Forwarded-For'];
-
 	} elseif (
 		array_key_exists( 'HTTP_X_FORWARDED_FOR', $headers ) &&
 		(
@@ -41,13 +34,9 @@ function learn_press_get_ip() {
 			filter_var( $headers['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 )
 		)
 	) {
-
 		$the_ip = $headers['HTTP_X_FORWARDED_FOR'];
-
 	} else {
-
 		$the_ip = $_SERVER['REMOTE_ADDR'];
-
 	}
 
 	return esc_sql( $the_ip );
@@ -142,8 +131,8 @@ if ( !function_exists( 'learn_press_course_paging_nav' ) ) :
 			'current'   => $paged,
 			'mid_size'  => 1,
 			'add_args'  => array_map( 'urlencode', $query_args ),
-			'prev_text' => __( '<', 'thim' ),
-			'next_text' => __( '>', 'thim' ),
+			'prev_text' => __( '<', 'learn_press' ),
+			'next_text' => __( '>', 'learn_press' ),
 			'type'      => 'list'
 		) );
 
@@ -158,7 +147,6 @@ if ( !function_exists( 'learn_press_course_paging_nav' ) ) :
 	}
 
 endif;
-
 
 /**
  * Function Insert or update Order
@@ -288,148 +276,6 @@ function learn_press_get_status_text( $status_id ) {
 	}
 
 	return $text;
-}
-
-if ( !function_exists( 'thim_get_currency_symbol' ) ) {
-	/**
-	 * Get Currency symbol.
-	 *
-	 * @param string $currency (default: '')
-	 *
-	 * @return string
-	 */
-	function thim_get_currency_symbol( $currency = '' ) {
-		if ( !$currency ) {
-//			$currency = get_woocommerce_currency();
-		}
-
-		switch ( $currency ) {
-			case 'AED' :
-				$currency_symbol = '';
-				break;
-			case 'BDT':
-				$currency_symbol = '&#2547;&nbsp;';
-				break;
-			case 'BRL' :
-				$currency_symbol = '&#82;&#36;';
-				break;
-			case 'BGN' :
-				$currency_symbol = '&#1083;&#1074;.';
-				break;
-			case 'AUD' :
-			case 'CAD' :
-			case 'CLP' :
-			case 'COP' :
-			case 'MXN' :
-			case 'NZD' :
-			case 'HKD' :
-			case 'SGD' :
-			case 'USD' :
-				$currency_symbol = '&#36;';
-				break;
-			case 'EUR' :
-				$currency_symbol = '&euro;';
-				break;
-			case 'CNY' :
-			case 'RMB' :
-			case 'JPY' :
-				$currency_symbol = '&yen;';
-				break;
-			case 'RUB' :
-				$currency_symbol = '&#1088;&#1091;&#1073;.';
-				break;
-			case 'KRW' :
-				$currency_symbol = '&#8361;';
-				break;
-			case 'PYG' :
-				$currency_symbol = '&#8370;';
-				break;
-			case 'TRY' :
-				$currency_symbol = '&#8378;';
-				break;
-			case 'NOK' :
-				$currency_symbol = '&#107;&#114;';
-				break;
-			case 'ZAR' :
-				$currency_symbol = '&#82;';
-				break;
-			case 'CZK' :
-				$currency_symbol = '&#75;&#269;';
-				break;
-			case 'MYR' :
-				$currency_symbol = '&#82;&#77;';
-				break;
-			case 'DKK' :
-				$currency_symbol = 'kr.';
-				break;
-			case 'HUF' :
-				$currency_symbol = '&#70;&#116;';
-				break;
-			case 'IDR' :
-				$currency_symbol = 'Rp';
-				break;
-			case 'INR' :
-				$currency_symbol = 'Rs.';
-				break;
-			case 'NPR' :
-				$currency_symbol = 'Rs.';
-				break;
-			case 'ISK' :
-				$currency_symbol = 'Kr.';
-				break;
-			case 'ILS' :
-				$currency_symbol = '&#8362;';
-				break;
-			case 'PHP' :
-				$currency_symbol = '&#8369;';
-				break;
-			case 'PLN' :
-				$currency_symbol = '&#122;&#322;';
-				break;
-			case 'SEK' :
-				$currency_symbol = '&#107;&#114;';
-				break;
-			case 'CHF' :
-				$currency_symbol = '&#67;&#72;&#70;';
-				break;
-			case 'TWD' :
-				$currency_symbol = '&#78;&#84;&#36;';
-				break;
-			case 'THB' :
-				$currency_symbol = '&#3647;';
-				break;
-			case 'GBP' :
-				$currency_symbol = '&pound;';
-				break;
-			case 'RON' :
-				$currency_symbol = 'lei';
-				break;
-			case 'VND' :
-				$currency_symbol = '&#8363;';
-				break;
-			case 'NGN' :
-				$currency_symbol = '&#8358;';
-				break;
-			case 'HRK' :
-				$currency_symbol = 'Kn';
-				break;
-			case 'EGP' :
-				$currency_symbol = 'EGP';
-				break;
-			case 'DOP' :
-				$currency_symbol = 'RD&#36;';
-				break;
-			case 'KIP' :
-				$currency_symbol = '&#8365;';
-				break;
-			default    :
-				$currency_symbol = '';
-				break;
-		}
-
-		return apply_filters( 'woocommerce_currency_symbol', $currency_symbol, $currency );
-	}
-
 }
 
 /**
@@ -566,17 +412,14 @@ function learn_press_edit_registration() {
 <?php
 }
 
-
 // process instructor registration button
 add_action( 'user_register', 'learn_press_registration_save', 10, 1 );
 function learn_press_registration_save( $user_id ) {
-
 	if ( isset( $_POST['become_teacher'] ) ) {
 		//update_user_meta( $user_id, '_lpr_be_teacher', $_POST['become_teacher'] );
 		$new_user = new WP_User( $user_id );
 		$new_user->set_role( 'lpr_teacher' );
 	}
-
 }
 
 // remove author metabox from teachers in editor screen.
@@ -681,7 +524,6 @@ function learn_press_notify_new_course() {
 
 }
 
-
 /*
  * Add searching post by taxonomies
  */
@@ -733,7 +575,6 @@ function remove_query_tax() {
 	remove_filter( 'posts_join', 'learn_press_join_term' );
 	remove_filter( 'posts_groupby', 'learn_press_tax_groupby' );
 }
-
 
 /*
  * Course tabs
@@ -936,6 +777,7 @@ function learn_press_publish_course( $new_status, $old_status, $post ) {
 
 add_action( 'transition_post_status', 'learn_press_publish_course', 10, 3 );
 
+
 /**
  * @param $user_id
  *
@@ -1049,16 +891,24 @@ function learn_press_template_loader( $template ) {
 	} else if ( is_post_type_archive( 'lpr_course' ) || ( ( $page_id = learn_press_get_page_id( 'courses' ) ) && is_page( $page_id ) ) ) {
 		$file   = 'archive-course.php';
 		$find[] = $file;
-		$find[] = learn_press_plugin_path( 'templates/' ) . $file;
-	}
+		//$find[] = learn_press_plugin_path( 'templates/' ) . $file;
+        //$find[] = learn_press_locate_template( 'archive-course.php' );
+        $find[] = 'learnpress/' . $file;
+	} else if ( get_post_type() == 'lpr_course' ) {
+        $file   = 'single-course.php';
+        $find[] = $file;
+        //$find[] = learn_press_plugin_path( 'templates/' ) . $file;
+        $find[] = 'learnpress/' . $file;
+    }
+
 	if ( $file ) {
+        //print_r($find);
 		$template = locate_template( array_unique( $find ) );
 		if ( !$template ) {
 			$template = learn_press_plugin_path( 'templates/' ) . $file;
 		}
 	}
-
-
+    //echo "XXXXXXXXXXX[$template]";
 	return $template;
 }
 

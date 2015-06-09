@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-
 if( !function_exists( 'learn_press_is_enrolled_course' ) ) {
     /**
      * Verify course access
@@ -279,7 +278,6 @@ if( !function_exists( 'learn_press_course_percentage' ) ) {
 }
 
 if( !function_exists( 'learn_press_single_quiz_load_question' ) ) {
-    // output the content of current question
     /**
      * Output the content of current question
      */
@@ -534,19 +532,21 @@ if( ! function_exists( 'learn_press_finish_course_button' ) ){
 }
 
 if( ! function_exists( 'learn_press_course_finished_message' ) ){
+    /**
+     * Display the message about status of the course after user finished
+     */
     function learn_press_course_finished_message(){
         if( learn_press_user_has_finished_course() ){
-            //if( )
             $quiz_id = lpr_get_final_quiz( get_the_ID() );
-            //if (learn_press_user_has_completed_quiz( null, 1183 )) {
-                learn_press_get_template('course/course-result.php', array( 'quiz_id' => $quiz_id ) );
-            //}
-            //learn_press_message( __( 'Congratulation ! You have finished this course', 'learn_press' ) );
+            learn_press_get_template('course/course-result.php', array( 'quiz_id' => $quiz_id ) );
         }
     }
 }
 
 if( ! function_exists( 'learn_press_course_remaining_time' ) ){
+    /**
+     * Show the time remain of a course
+     */
     function learn_press_course_remaining_time(){
         if( ! learn_press_user_has_finished_course() && $text = learn_press_get_course_remaining_time() ){
             learn_press_message( sprintf( __( 'This course will end within %s next' ), $text ) );
@@ -555,6 +555,9 @@ if( ! function_exists( 'learn_press_course_remaining_time' ) ){
 }
 
 if( ! function_exists( 'learn_press_passed_conditional' ) ){
+    /**
+     * Show the message let user know that they can finish the course if they want
+     */
     function learn_press_passed_conditional(){
         if( learn_press_user_has_passed_conditional() && ! learn_press_user_has_finished_course() ){
             $passing_condition = learn_press_get_course_passing_condition();
@@ -564,6 +567,9 @@ if( ! function_exists( 'learn_press_passed_conditional' ) ){
 }
 
 if( ! function_exists( 'learn_press_course_retake_button' ) ){
+    /**
+     * Display the button let user can retake a course
+     */
     function learn_press_course_retake_button(){
         if( learn_press_user_has_finished_course() && learn_press_user_can_retake_course() ){
             learn_press_get_template( 'course/button-retake.php' );
@@ -572,6 +578,10 @@ if( ! function_exists( 'learn_press_course_retake_button' ) ){
 }
 
 if( ! function_exists( 'learn_press_quiz_hint' ) ){
+    /**
+     * Display the correct/wrong answers of a quiz in result page
+     * @param $question_id
+     */
     function learn_press_quiz_hint( $question_id ){
         global $quiz;
         $user_id = get_current_user_id();
@@ -664,6 +674,12 @@ if( ! function_exists( 'learn_press_quiz_hint' ) ){
 }
 
 if( ! function_exists( 'learn_press_course_lesson_class' ) ){
+    /**
+     * The class of lesson in course curriculum
+     *
+     * @param int $lesson_id
+     * @param array|string $class
+     */
     function learn_press_course_lesson_class( $lesson_id = null, $class = null ){
         if( is_string( $class ) && $class ) $class = preg_split('!\s+!', $class );
         else $class = array();
@@ -683,6 +699,12 @@ if( ! function_exists( 'learn_press_course_lesson_class' ) ){
 }
 
 if( ! function_exists( 'learn_press_course_quiz_class' ) ){
+    /**
+     * The class of lesson in course curriculum
+     *
+     * @param int $quiz_id
+     * @param string|array $class
+     */
     function learn_press_course_quiz_class( $quiz_id = null, $class = null ){
         if( is_string( $class ) && $class ) $class = preg_split('!\s+!', $class );
         else $class = array();
@@ -699,12 +721,21 @@ if( ! function_exists( 'learn_press_course_quiz_class' ) ){
 }
 
 if( ! function_exists( 'learn_press_message' ) ){
+    /**
+     * Template to display the messages
+     * @param $content
+     * @param string $type
+     */
     function learn_press_message( $content, $type = 'message' ){
         learn_press_get_template( 'global/message.php', array( 'type' => $type, 'content' => $content ) );
     }
 }
 
 if( ! function_exists( 'learn_press_course_content_summary' ) ){
+    /**
+     * Display the content of a lesson in a course content
+     * @return int
+     */
     function learn_press_course_content_summary(){
         $lesson_id = isset( $_GET['lesson'] ) ? $_GET['lesson'] : '';
         global $post;
@@ -737,32 +768,47 @@ if( ! function_exists( 'learn_press_course_content_summary' ) ){
     }
 }
 
-
 if( ! function_exists( 'learn_press_course_content_course_title' ) ){
+    /**
+     * Display the title of a course in single page
+     */
     function learn_press_course_content_course_title(){
         learn_press_get_template( "course/content-course-title.php" );
     }
 }
 
 if( ! function_exists( 'learn_press_course_content_course_description' ) ){
+    /**
+     * Display the description of a course
+     */
     function learn_press_course_content_course_description(){
         learn_press_get_template( "course/content-course-description.php" );
     }
 }
 
 if( ! function_exists( 'learn_press_course_content_lesson_title' ) ){
+    /**
+     * Display the title of a lesson in single course
+     */
     function learn_press_course_content_lesson_title(){
         learn_press_get_template( "course/content-lesson-title.php" );
     }
 }
 
 if( ! function_exists( 'learn_press_course_content_lesson_description' ) ){
+    /**
+     * Display the description of a lesson in single course page
+     */
     function learn_press_course_content_lesson_description(){
         learn_press_get_template( "course/content-lesson-description.php" );
     }
 }
 
 if( ! function_exists( 'learn_press_course_content_lesson_action' ) ){
+    /**
+     * Display the "Complete button" if user hasn't completed lesson
+     * Otherwise, display the message says that they has finished
+     */
     function learn_press_course_content_lesson_action(){
         // we are in lesson not course
         if( learn_press_user_has_completed_lesson() ){
@@ -777,6 +823,9 @@ if( ! function_exists( 'learn_press_course_content_lesson_action' ) ){
 }
 
 if( ! function_exists( 'learn_press_course_content_next_prev_lesson' ) ){
+    /**
+     * Display the next/previous buttons to move the lesson to next or previous
+     */
     function learn_press_course_content_next_prev_lesson(){
 
         // we are not in the loop of the course
@@ -852,7 +901,6 @@ if( ! function_exists( 'learn_press_get_course_lesson_permalink' ) ){
     }
 }
 
-//////////////////
 function learn_press_course_lesson_quiz_before_title( $lesson_or_quiz, $enrolled ){
     global $learn_press_lesson_quiz_tooltips;
     if( ! $learn_press_lesson_quiz_tooltips ) $learn_press_lesson_quiz_tooltips = array();
@@ -944,6 +992,13 @@ function learn_press_quick_lesson_link_process_part($m){
 }
 add_filter( 'the_content', 'learn_press_quick_lesson_link_process', 1000 );
 
+/**
+ * Shortcode function to display the link of a lesson in the lesson content
+ *
+ * @param $atts
+ * @param null $content
+ * @return string
+ */
 function learn_press_quick_lesson_link_shortcode( $atts, $content = null ){
     if( 'lpr_lesson' == get_post_type() ) {
         $atts = shortcode_atts(
@@ -965,6 +1020,14 @@ function learn_press_quick_lesson_link_shortcode( $atts, $content = null ){
 }
 add_shortcode( 'quick_lesson_link', 'learn_press_quick_lesson_link_shortcode' );
 
+/**
+ * Modify the page title depending on where we are standing in single course
+ * Page title = COURSE_TITLE::LESSON_TITLE
+ *
+ * @param $title
+ * @param $sep
+ * @return mixed
+ */
 function learn_press_page_title( $title, $sep ){
     if ( is_feed() || ( 'lpr_course' != get_post_type() ) || empty( $_REQUEST['lesson'] ) ){
         return $title;

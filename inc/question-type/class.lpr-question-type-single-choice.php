@@ -89,7 +89,6 @@ class LPR_Question_Type_Single_Choice extends LPR_Question_Type{
             $post_data = isset( $_POST['lpr_question'] ) ? $_POST['lpr_question'] : array();
             $post_answers = array();
             if( isset( $post_data[$post_id] ) && $post_data = $post_data[$post_id] ){
-                echo "BEFORE";
                 wp_update_post(
                     array(
                         'ID'            => $post_id,
@@ -97,7 +96,6 @@ class LPR_Question_Type_Single_Choice extends LPR_Question_Type{
                         'post_type'     => 'lpr_question'
                     )
                 );
-                echo "AFTER";
                 $index = 0;
                 foreach( $post_data['answer']['text'] as $k => $txt ){
                     if( !$txt ) continue;

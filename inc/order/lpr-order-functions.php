@@ -352,3 +352,56 @@ function learn_press_get_course_price_text( $price, $course_id ){
     return $price;
 }
 add_filter( 'learn_press_get_course_price', 'learn_press_get_course_price_text', 5, 2);
+
+
+function learn_press_get_order_items( $order_id ) {
+    return get_post_meta( $order_id, '_learn_press_order_items', true );
+}
+
+function learn_press_format_price( $price, $with_currency = false ) {
+    if ( !is_numeric( $price ) )
+        $price = 0;
+    $settings = learn_press_settings( 'general' );
+    $before   = $after = '';
+    if ( $with_currency ) {
+        if ( gettype( $with_currency ) != 'string' ) {
+            $currency = learn_press_get_currency_symbol();
+        } else {
+            $currency = $with_currency;
+        }
+
+        switch ( $settings->get( 'currency_pos' ) ) {
+            default:
+                $before = $currency;
+                break;
+            case 'left_with_space':
+                $before = $currency . ' ';
+                break;
+            case 'right':
+                $after = $currency;
+                break;
+            case 'right_with_space':
+                $after = ' ' . $currency;
+        }
+    }
+
+    $price =
+        $before
+        . number_format(
+            $price,
+            $settings->get( 'number_of_decimals', 2 ),
+            $settings->get( 'decimals_separator', '.' ),
+            $settings->get( 'thousands_separator', ',' )
+        ) . $after;
+
+    return $price;
+}
+
+function learn_press_transaction_order_number( $order_number ) {
+    return '#' . sprintf( "%'.010d", $order_number );
+}
+
+function learn_press_transaction_order_date( $date, $format = null ) {
+    $format = empty( $format ) ? get_option( 'date_format' ) : $format;
+    return date( $format, strtotime( $date ) );
+}

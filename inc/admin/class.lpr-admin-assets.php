@@ -1,5 +1,7 @@
 <?php
-
+if ( !defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
 if ( !class_exists( 'LPR_Admin_Assets' ) ) {
 	/**
 	 * Class LPR_Admin_Assets
@@ -118,18 +120,20 @@ if ( !class_exists( 'LPR_Admin_Assets' ) ) {
 			}
 		}
 
+        /**
+         * Load necessary styles + scripts for admin
+         */
 		static function load_scripts() {
 			self::enqueue_style( 'learnpress-admin-css', LPR_CSS_URL . 'learnpress-admin.css' );
 			self::enqueue_script( 'learnpress-admin-js', LPR_JS_URL . 'learnpress-admin.js' );
             self::enqueue_script( 'learnpress-block-ui', LPR_JS_URL . 'jquery.block-ui.js' );
 		}
 
+        /**
+         * Translate the text if needed
+         */
 		static function localize_printed_scripts() {
 			if ( self::$scripts ) foreach ( self::$scripts as $handle ) {
-				self::localize_script( $handle );
-			}
-			return;
-			foreach ( self::$scripts as $handle ) {
 				self::localize_script( $handle );
 			}
 		}

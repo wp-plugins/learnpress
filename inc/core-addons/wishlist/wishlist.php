@@ -25,7 +25,7 @@ function learn_press_course_wishlist_button() {
 	if ( in_array( $course_id, $course_taken ) ) {
 		return;
 	}
-	learn_press_get_template('addons/course-wishlist/button.php');
+	learn_press_get_template( 'addons/course-wishlist/button.php' );
 
 }
 
@@ -132,53 +132,9 @@ function learn_press_wishlist_tab( $tabs, $user ) {
  */
 add_filter( 'learn_press_user_wishlist_tab_content', 'learn_press_user_wishlist_tab_content', 10, 2 );
 function learn_press_user_wishlist_tab_content( $content, $user ) {
-
-	// query courses
-	$pid = get_user_meta( $user->ID, '_lpr_wish_list', true );
-	if ( !$pid ) {
-		$pid = array( 0 );
-	}
-	$arr_query = array(
-		'post_type'           => 'lpr_course',
-		'post__in'            => $pid,
-		'post_status'         => 'publish',
-		'ignore_sticky_posts' => true,
-	);
-	$my_query  = new WP_Query( $arr_query );
-	// end query
-	// div #course_taken
-	$content .= sprintf(
-		'<div id="course_wishlist">
-			<lable>%s</lable>
-			<span>(%d)</span>',
-		__( 'All Wishlist Courses', 'learn_press' ),
-		$my_query->post_count
-	);
-	if ( $my_query->post_count != 0 ) {
-		$content .= '<ul class="course">';
-		while ( $my_query->have_posts() ):
-			$my_query->the_post();
-			$content .= sprintf(
-				'<li>
-							<a href="%s">%s</a>
-							<ul class="course_stats">
-								<li>%s: %s</li>
-							</ul>
-
-				</li>',
-				esc_url( get_permalink() ),
-				get_the_title(),
-				__( 'Price', 'learn_press' ),
-				learn_press_get_course_price( get_the_ID(), true )
-			);
-
-		endwhile;
-		$content .= '</ul>';
-	} else {
-		$content .= '<p>' . __( 'No items in your wishlist!', 'learn_press' ) . '</p>';
-	}
-	$content .= '</div>';
-	// close div #course_taken
+	ob_start();
+	learn_press_get_template( 'addons/course-wishlist/user-wishlist.php', array( 'user' => $user ) );
+	$content .= ob_get_clean();
 	return $content;
 }
 
@@ -245,3 +201,21 @@ if ( learn_press_buddypress_is_active() ) {
 		}
 	}
 }
+
+function learn_press_get_wishlist_courses( $user_id ) {
+	$pid = get_user_meta( $user_id, '_lpr_wish_list', true );
+	if ( !$pid ) {
+		$pid = array( 0 );
+	}
+	$arr_query = array(
+		'post_type'           => 'lpr_course',
+		'post__in'            => $pid,
+		'post_status'         => 'publish',
+		'ignore_sticky_posts' => true,
+		'posts_per_page'      => - 1
+	);
+	$my_query  = new WP_Query( $arr_query );
+	return $my_query;
+}
+
+add_action( 'learn_press_after_wishlist_course_title', 'learn_press_course_wishlist_button', 10 );

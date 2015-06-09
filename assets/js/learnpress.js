@@ -4,8 +4,16 @@
 ;
 if( typeof LearnPress == 'undefined' ) window.LearnPress = {};
 ;(function($){
+    function learn_press_parse_json(response){
+        var matches = response.match(/<!--LPR_START-->(.*)<!--LPR_END-->/),
+            message = '';
+        if (matches && matches[1]) {
+            return JSON.parse(matches[1]);
+        }else{
+            return JSON.parse(response);
+        }
+    }
     $.fn.outerHTML = function(){
-
         // IE, Chrome & Safari will comply with the non-standard outerHTML, all others (FF) will have a fall-back for cloning
         return (!this.length) ? this : (this[0].outerHTML || (
             function(el){
@@ -21,14 +29,20 @@ if( typeof LearnPress == 'undefined' ) window.LearnPress = {};
         complete_lesson: function( lesson, user_id ){
             $.ajax({
                 type   : "POST",
+                dataType: 'html',
                 url    : ajaxurl,
                 data   : {
                     action   : 'learnpress_complete_lesson',
                     lesson: lesson,
                     user_id: user_id
                 },
-                success: function (html) {
-                    reload();
+                success: function (response) {
+                    var response = learn_press_parse_json(response);
+                    if( response.url ){
+                        reload( response.url )
+                    }else{
+                        reload();
+                    }
                 }
             })
         },

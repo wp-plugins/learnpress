@@ -1,12 +1,12 @@
 <?php
-
-
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-
-if ( !class_exists( 'LPR_Profile' ) ) {
+if ( ! class_exists( 'LPR_Profile' ) ) {
+    /**
+     * Class LPR_Profile
+     */
 	class LPR_Profile {
 		/**
 		 *  Constructor
@@ -121,58 +121,9 @@ if ( !class_exists( 'LPR_Profile' ) ) {
 		 * Add content for user quiz results tab
 		 */
 		public function learn_press_user_quizzes_tab_content( $content, $user ) {
-			$query_courses = learn_press_get_enrolled_courses( $user->ID );
-			$content .= '<div id="quiz-accordion">';
-			if ( $query_courses->post_count != 0 ) {
-				while ( $query_courses->have_posts() ):
-					$query_courses->the_post();
-					$quiz_list = '';
-					$quizzes   = learn_press_get_quizzes( get_the_ID() );
-					$quiz_list .= sprintf(
-						'<table>
-							<thead>
-								<tr>
-									<td>%s</td>
-									<td>%s</td>
-									<td>%s</td>
-									<td>%s</td>
-								</tr>
-							</thead>
-							<tbody>',
-						__( 'Quiz', 'learn_press' ),
-						__( 'Questions', 'learn_press' ),
-						__( 'Result', 'learn_press' ),
-						__( 'Time', 'learn_press' )
-					);
-					foreach ( $quizzes as $quiz ) {
-						$quiz_result = learn_press_get_quiz_result( $user->ID, $quiz );
-						$quiz_list .= sprintf(
-							'<tr>
-								<td><a href="%s">%s</a></td>
-								<td>%s</td>
-								<td>%s</td>
-								<td>%s</td>
-							</tr>',
-							esc_url( get_permalink( $quiz ) ),
-							get_the_title( $quiz ),
-							empty ( $quiz_result['questions_count'] ) ? __( 'Empty', 'learn_press' ) : $quiz_result['questions_count'],
-							$quiz_result['correct_percent'] . '%',
-							$quiz_result['quiz_time'] . 's'
-						);
-					}
-					$quiz_list .= '</tbody></table>';
-					$content .= sprintf(
-						'<h3><a href="%s">%s</a></h3>
-						<div>%s</div>',
-						esc_url( get_permalink() ),
-						get_the_title(),
-						$quiz_list
-					);
-				endwhile;
-			} else {
-				$content .= '<p>' . __( 'You have not taken any courses yet!', 'learn_press' ) . '</p>';
-			}
-			$content .= '</div>';
+			ob_start();
+			learn_press_get_template( 'profile/user-quizzes.php', array( 'content' => $content, 'user' => $user ) );
+			$content .= ob_get_clean();
 			return $content;
 		}
 
@@ -184,6 +135,5 @@ if ( !class_exists( 'LPR_Profile' ) ) {
 			}
 		}
 	}
-
 	new LPR_Profile;
 }

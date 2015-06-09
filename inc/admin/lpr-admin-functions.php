@@ -1,8 +1,11 @@
 <?php
 /**
- * Common function for admin
+ * Common functions used for admin
  */
 
+/**
+ * Translate javascript text
+ */
 function learn_press_admin_localize_script(){
     if( defined( 'DOING_AJAX' ) || !is_admin() ) return;
     $translate = array(
@@ -28,13 +31,14 @@ function learn_press_settings_tabs_array() {
 	return apply_filters( 'learn_press_settings_tabs_array', $tabs );
 }
 
-
-function learn_press_settings_payment() {
-	?>
-	<h3><?php _e( 'Payment', 'learn_press' ); ?></h3>
-<?php
-}
-
+/**
+ * Count number of orders between to dates
+ *
+ * @param string
+ * @param int
+ *
+ * @return int
+ */
 function learn_press_get_order_by_time( $by, $time ) {
 	global $wpdb;
 	$user_id = get_current_user_id();
@@ -79,6 +83,12 @@ function learn_press_get_order_by_time( $by, $time ) {
 	return $orders;
 }
 
+/**
+ * Count number of orders by status
+ *
+ * @param string Status of the orders
+ * @return int
+ */
 function learn_press_get_courses_by_status( $status ) {
 	global $wpdb;
 	$user_id = get_current_user_id();
@@ -95,6 +105,12 @@ function learn_press_get_courses_by_status( $status ) {
 	return $courses;
 }
 
+/**
+ * Count number of orders by price
+ *
+ * @param string
+ * @return int
+ */
 function learn_press_get_courses_by_price( $fee ) {
 	global $wpdb;
 	$user_id = get_current_user_id();
@@ -114,6 +130,14 @@ function learn_press_get_courses_by_price( $fee ) {
 	return $courses;
 }
 
+/**
+ * Get data about students to render in chart
+ *
+ * @param null $from
+ * @param null $by
+ * @param $time_ago
+ * @return array
+ */
 function learn_press_get_chart_students( $from = null, $by = null, $time_ago ) {
 	$labels   = array();
 	$datasets = array();
@@ -153,6 +177,10 @@ function learn_press_get_chart_students( $from = null, $by = null, $time_ago ) {
 	);
 }
 
+/**
+ * Get data about courses to render in the chart
+ * @return array
+ */
 function learn_press_get_chart_courses() {
 	$labels              = array( __( 'Pending Courses / Publish Courses', 'learn_press' ), __( 'Free Courses / Priced Courses', 'learn_press' ) );
 	$datasets            = array();
@@ -170,6 +198,10 @@ function learn_press_get_chart_courses() {
 	);
 }
 
+/**
+ * Get colors setting up by admin user
+ * @return array
+ */
 function learn_press_get_admin_colors() {
 	$admin_color = get_user_meta( get_current_user_id(), 'admin_color', true );
 	global $_wp_admin_css_colors;
@@ -186,6 +218,10 @@ function learn_press_get_admin_colors() {
 	return $colors;
 }
 
+/**
+ * Convert an array to json format and print out to browser
+ * @param array $chart
+ */
 function learn_press_process_chart( $chart = array() ) {
 	$data = json_encode(
 		array(
@@ -196,6 +232,9 @@ function learn_press_process_chart( $chart = array() ) {
 	echo $data;
 }
 
+/**
+ * Print out the configuration for admin chart
+ */
 function learn_press_config_chart() {
 	$colors = learn_press_get_admin_colors();
 	$config = array(
@@ -235,4 +274,117 @@ function set_post_order_in_admin( $wp_query ) {
 }
 add_filter('pre_get_posts', 'set_post_order_in_admin' );
 
+/**
+ * Add actions to the list of the course. e.g: Duplicate link
+ *
+ * @param $actions
+ * @return mixed
+ */
+function learn_press_add_row_action_link( $actions ) {
+    global $post;
+    if ( 'lpr_course' == $post->post_type ) {
+        $duplicate_link = admin_url( 'edit.php?post_type=lpr_course&action=lpr-duplicate-course&post=' . $post->ID );
+        $duplicate_link = array(
+            array(
+                'link'  => $duplicate_link,
+                'title' => __( 'Duplicate this course', 'learn_press' ),
+                'class' => ''
+            )
+        );
+        $links          = apply_filters( 'learn_press_row_action_links', $duplicate_link );
+        if ( count( $links ) > 1 ) {
+            $drop_down = array( '<ul class="lpr-row-action-dropdown">' );
+            foreach ( $links as $link ) {
+                $drop_down[] = '<li>' . sprintf( '<a href="%s" class="%s">%s</a>', $link['link'], $link['class'], $link['title'] ) . '</li>';
+            };
+            $drop_down[] = '</ul>';
+            $link        = sprintf( '<div class="lpr-row-actions"><a href="%s">%s</a>%s</div>', 'javascript: void(0);', __( 'Course', 'learn_press' ), join( "\n", $drop_down ) );
+        } else {
+            $link = array_shift( $links );
+            $link = sprintf( '<a href="%s" class="%s">%s</a>', $link['link'], $link['class'], $link['title'] );
+        }
+        $actions['lpr-course-row-action'] = $link;
+    }
+    return $actions;
+}
+add_filter( 'page_row_actions', 'learn_press_add_row_action_link' );
+
+/**
+ * Duplicate a course when user hit "Duplicate" button
+ *
+ * @author  TuNN
+ */
+function learn_press_process_duplicate_action() {
+
+    $wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
+    $action        = $wp_list_table->current_action();
+
+    if ( isset( $_REQUEST['action'] ) && ( $action = $_REQUEST['action'] ) == 'lpr-duplicate-course' ) {
+        $post_id = isset( $_REQUEST['post'] ) ? $_REQUEST['post'] : 0;
+        if ( $post_id && is_array( $post_id ) ) {
+            $post_id = array_shift( $post_id );
+        }
+        // check for post is exists
+        if ( !( $post_id && $post = get_post( $post_id ) ) ) {
+            wp_die( __( 'Op! The course does not exists', 'learn_press' ) );
+        }
+        // ensure that user can create course
+        if ( !current_user_can( 'edit_posts' ) ) {
+            wp_die( __( 'Sorry! You have not permission to duplicate this course', 'learn_press' ) );
+        }
+
+        // assign course to current user
+        $current_user      = wp_get_current_user();
+        $new_course_author = $current_user->ID;
+
+        // setup course data
+        $new_course_title = $post->post_title . ' - Copy';
+        $args             = array(
+            'comment_status' => $post->comment_status,
+            'ping_status'    => $post->ping_status,
+            'post_author'    => $new_course_author,
+            'post_content'   => $post->post_content,
+            'post_excerpt'   => $post->post_excerpt,
+            'post_name'      => $post->post_name,
+            'post_parent'    => $post->post_parent,
+            'post_password'  => $post->post_password,
+            'post_status'    => 'draft',
+            'post_title'     => $new_course_title,
+            'post_type'      => $post->post_type,
+            'to_ping'        => $post->to_ping,
+            'menu_order'     => $post->menu_order
+        );
+
+        // insert new course and get it ID
+        $new_post_id = wp_insert_post( $args );
+
+        // assign related tags/categories to new course
+        $taxonomies = get_object_taxonomies( $post->post_type );
+        foreach ( $taxonomies as $taxonomy ) {
+            $post_terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'slugs' ) );
+            wp_set_object_terms( $new_post_id, $post_terms, $taxonomy, false );
+        }
+
+        // duplicate course data
+        global $wpdb;
+        $course_meta = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id" );
+        if ( count( $course_meta ) != 0 ) {
+            $sql_query     = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
+            $sql_query_sel = array();
+
+            foreach ( $course_meta as $meta ) {
+                $meta_key   = $meta->meta_key;
+                $meta_value = addslashes( $meta->meta_value );
+
+                $sql_query_sel[] = "SELECT $new_post_id, '$meta_key', '$meta_value'";
+            }
+
+            $sql_query .= implode( " UNION ALL ", $sql_query_sel );
+            $wpdb->query( $sql_query );
+        }
+        wp_redirect( admin_url( 'edit.php?post_type=lpr_course' ) );
+        die();
+    }
+}
+add_action( 'load-edit.php', 'learn_press_process_duplicate_action' );
 

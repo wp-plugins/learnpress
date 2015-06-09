@@ -37,10 +37,12 @@ With BuddyPress support, LearnPress will help you to communicate with your stude
 Add-on is used to providing extra features for LearnPress and you can also write it. 
 
 **LearnPress is free and always will be**  
-Education should be free and we want you to bring it to as many people as you can. Therefore, we create LearnPress as a tool for you to create course and share it. We'll continue developing it as long as we can and make it better and better.
+Education should be free and we want you to bring it to as many people as you can. Therefore, we create LearnPress as a tool for you to create course and share it. We'll continue developing it as long as we can and make it better and better.  
 
 **LearnPress is actively developed**  
 We are developing and improving LearnPress day by day and bringing new features to you cos we want LearnPress to become the best WordPress plugin in LMS.
+
+Any suggestions for us? Send us [here](http://thimpress.com/learnpress-suggestion/)
 
 == Installation ==
 

@@ -132,18 +132,22 @@ add_action( 'wp_ajax_learn_press_add_course_review', 'learn_press_add_course_rev
 function learn_press_print_rate( $course_id ) {
 //    echo get_the_ID();
     wp_enqueue_style( 'lpr-print-rate-css', untrailingslashit( plugins_url( '/', __FILE__ ) ) . '/assets/course-review.css' );
-    learn_press_get_template('addons/course-review/course-rate.php');
+    wp_enqueue_script( 'lpr-print-rate-js', untrailingslashit( plugins_url( '/', __FILE__ ) ) . '/assets/course-review.js' ,array('jquery'), '', true );
+    learn_press_get_template('addons/course-review/course-rate.php');    
 }
 add_action('learn_press_after_the_title', 'learn_press_print_rate', 10 , 1);
 
 
-function learn_press_print_review( $course_id ) {    
+function learn_press_print_review( $course_id ) {
+    wp_enqueue_style( 'lpr-print-rate-css', untrailingslashit( plugins_url( '/', __FILE__ ) ) . '/assets/course-review.css' );
+    wp_enqueue_script( 'lpr-print-rate-js', untrailingslashit( plugins_url( '/', __FILE__ ) ) . '/assets/course-review.js' ,array('jquery'), '', true );
     learn_press_get_template('addons/course-review/course-review.php');
 }
 add_action( 'learn_press_course_landing_content', 'learn_press_print_review', 80 );
 
 function learn_press_add_review_button( $course_id ) {    
     wp_enqueue_script( 'lpr-print-rate-js', untrailingslashit( plugins_url( '/', __FILE__ ) ) . '/assets/course-review.js' ,array('jquery'), '', true );
+    wp_enqueue_style( 'lpr-print-rate-css', untrailingslashit( plugins_url( '/', __FILE__ ) ) . '/assets/course-review.css' );
     learn_press_get_template('addons/course-review/add-review.php');
 }
 add_action('learn_press_course_learning_content', 'learn_press_add_review_button', 5);

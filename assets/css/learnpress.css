@@ -390,3 +390,8 @@
     background-color: #90DFFF;
     color: #FFF;
 }
+#user_quizzes:after {
+	content: "";
+	display: block;
+	clear: both;
+}

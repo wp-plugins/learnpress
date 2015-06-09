@@ -11,7 +11,6 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-
 /**
  * Get number of lesson in one course
  *
@@ -76,12 +75,16 @@ function lpr_course_evaluation( $course_id ) {
 	return $course_result * 100;
 }
 
+/**
+ * Get the results of a quiz
+ * @param $quiz_id
+ * @param null $user_id
+ * @return mixed
+ */
 function learn_press_quiz_evaluation( $quiz_id, $user_id = null ) {
 	if ( !$user_id ) $user_id = get_current_user_id();
-
 	$result = learn_press_get_quiz_result( $user_id, $quiz_id );
-	//$passing_condition = learn_press_get_course_passing_condition( get_post_meta( $quiz_id, '_lpr_course', true ) );
-	return $result['mark_percent'] * 100;// >$passing_condition;
+	return $result['mark_percent'] * 100;
 }
 
 /**
@@ -114,117 +117,6 @@ function learn_press_is_lesson_preview( $lesson_id ) {
 	$lesson_preview = get_post_meta( $lesson_id, '_lpr_lesson_preview', true );
 	return $lesson_preview == 'preview';
 }
-
-///////////////////////////// Copied from functions-tunn.php ////////////////////////////////////
-function learn_press_add_row_action_link( $actions ) {
-	global $post;
-	if ( 'lpr_course' == $post->post_type ) {
-		$duplicate_link = admin_url( 'edit.php?post_type=lpr_course&action=lpr-duplicate-course&post=' . $post->ID );
-		$duplicate_link = array(
-			array(
-				'link'  => $duplicate_link,
-				'title' => __( 'Duplicate this course', 'learn_press' ),
-				'class' => ''
-			)
-		);
-		$links          = apply_filters( 'learn_press_row_action_links', $duplicate_link );
-		if ( count( $links ) > 1 ) {
-			$drop_down = array( '<ul class="lpr-row-action-dropdown">' );
-			foreach ( $links as $link ) {
-				$drop_down[] = '<li>' . sprintf( '<a href="%s" class="%s">%s</a>', $link['link'], $link['class'], $link['title'] ) . '</li>';
-			};
-			$drop_down[] = '</ul>';
-			$link        = sprintf( '<div class="lpr-row-actions"><a href="%s">%s</a>%s</div>', 'javascript: void(0);', __( 'Course', 'learn_press' ), join( "\n", $drop_down ) );
-		} else {
-			$link = array_shift( $links );
-			$link = sprintf( '<a href="%s" class="%s">%s</a>', $link['link'], $link['class'], $link['title'] );
-		}
-		$actions['lpr-course-row-action'] = $link;
-	}
-	return $actions;
-}
-
-add_filter( 'page_row_actions', 'learn_press_add_row_action_link' );
-
-/**
- * Duplicate a course when user hit "Duplicate" button
- *
- * @author  TuNN
- */
-function learn_press_process_duplicate_action() {
-
-	$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
-	$action        = $wp_list_table->current_action();
-
-	if ( isset( $_REQUEST['action'] ) && ( $action = $_REQUEST['action'] ) == 'lpr-duplicate-course' ) {
-		$post_id = isset( $_REQUEST['post'] ) ? $_REQUEST['post'] : 0;
-		if ( $post_id && is_array( $post_id ) ) {
-			$post_id = array_shift( $post_id );
-		}
-		// check for post is exists
-		if ( !( $post_id && $post = get_post( $post_id ) ) ) {
-			wp_die( __( 'Op! The course does not exists', 'learn_press' ) );
-		}
-		// ensure that user can create course
-		if ( !current_user_can( 'edit_posts' ) ) {
-			wp_die( __( 'Sorry! You have not permission to duplicate this course', 'learn_press' ) );
-		}
-
-		// assign course to current user
-		$current_user      = wp_get_current_user();
-		$new_course_author = $current_user->ID;
-
-		// setup course data
-		$new_course_title = $post->post_title . ' - Copy';
-		$args             = array(
-			'comment_status' => $post->comment_status,
-			'ping_status'    => $post->ping_status,
-			'post_author'    => $new_course_author,
-			'post_content'   => $post->post_content,
-			'post_excerpt'   => $post->post_excerpt,
-			'post_name'      => $post->post_name,
-			'post_parent'    => $post->post_parent,
-			'post_password'  => $post->post_password,
-			'post_status'    => 'draft',
-			'post_title'     => $new_course_title,
-			'post_type'      => $post->post_type,
-			'to_ping'        => $post->to_ping,
-			'menu_order'     => $post->menu_order
-		);
-
-		// insert new course and get it ID
-		$new_post_id = wp_insert_post( $args );
-
-		// assign related tags/categories to new course
-		$taxonomies = get_object_taxonomies( $post->post_type );
-		foreach ( $taxonomies as $taxonomy ) {
-			$post_terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'slugs' ) );
-			wp_set_object_terms( $new_post_id, $post_terms, $taxonomy, false );
-		}
-
-		// duplicate course data
-		global $wpdb;
-		$course_meta = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id" );
-		if ( count( $course_meta ) != 0 ) {
-			$sql_query     = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
-			$sql_query_sel = array();
-
-			foreach ( $course_meta as $meta ) {
-				$meta_key   = $meta->meta_key;
-				$meta_value = addslashes( $meta->meta_value );
-
-				$sql_query_sel[] = "SELECT $new_post_id, '$meta_key', '$meta_value'";
-			}
-
-			$sql_query .= implode( " UNION ALL ", $sql_query_sel );
-			$wpdb->query( $sql_query );
-		}
-		wp_redirect( admin_url( 'edit.php?post_type=lpr_course' ) );
-		die();
-	}
-}
-
-add_action( 'load-edit.php', 'learn_press_process_duplicate_action' );
 
 /**
  * Returns the name of folder contains template files in theme
@@ -282,7 +174,7 @@ function learn_press_get_template_part( $slug, $name = '' ) {
 }
 
 /**
- * Get other templates (e.g. product attributes) passing attributes and including the file.
+ * Get other templates passing attributes and including the file.
  *
  * @param string $template_name
  * @param array  $args          (default: array())
@@ -501,24 +393,24 @@ function learn_press_quiz_has_questions( $quiz_id = null ) {
  * @author  TuNN
  * @return  void
  */
-function learn_press_template_redirect() {
+function learn_press_template_include( $template ) {
 	global $post_type;
 	do_action( 'learn_press_before_template_redirect', $post_type );
-	//echo __FUNCTION__;
 	if ( !empty( $post_type ) ) {
 		if ( false !== strpos( $post_type, 'lpr_' ) ) {
 			$lpr_post_type = str_replace( 'lpr_', '', $post_type );
 			$template      = '';
 			if ( is_archive() ) {
-				$template = learn_press_get_template_part( 'archive', $lpr_post_type );
+				$template = learn_press_locate_template( 'archive', $lpr_post_type );
 			} else {
-				$template = learn_press_get_template_part( 'single', $lpr_post_type );
+				$template =learn_press_locate_template( 'single', $lpr_post_type );
 			}
 			// ensure the template loaded otherwise load default template
 
-			if ( $template && file_exists( $template ) ) exit();
+			//if ( $template && file_exists( $template ) ) exit();
 		}
 	}
+    return $template;
 }
 
 /**
@@ -543,6 +435,13 @@ function learn_press_get_question_answers( $user_id = null, $quiz_id = null ) {
 	return apply_filters( 'learn_press_get_question_answers', $answers, $quiz_id, $user_id );
 }
 
+/**
+ * Check to see if user not passed the ID of quiz try to get it from global
+ * Only works in single quiz page
+ *
+ * @param $id
+ * @return mixed
+ */
 function learn_press_get_quiz_id( $id ) {
 	if ( !$id ) {
 		global $quiz;
@@ -552,10 +451,14 @@ function learn_press_get_quiz_id( $id ) {
 }
 
 /**
+ * Save the answer for a question
  *
+ * @param int $user_id
+ * @param int $quiz_id
+ * @param int $question_id
+ * @param mixed $question_answer
  */
 function learn_press_save_question_answer( $user_id = null, $quiz_id = null, $question_id, $question_answer ) {
-
 	if ( !$user_id ) {
 		$user_id = get_current_user_id();
 	}
@@ -572,21 +475,20 @@ function learn_press_save_question_answer( $user_id = null, $quiz_id = null, $qu
 /**
  * Get quiz data stored in database of an user
  *
- * @param      $meta
- * @param null $user_id
- * @param null $quiz_id
+ * @param string $meta_key
+ * @param int $user_id
+ * @param int $quiz_id
  *
  * @return bool
  */
 function learn_press_get_user_quiz_data( $meta_key, $user_id = null, $quiz_id = null ) {
-	global $quiz;
 	if ( !$user_id ) {
 		$user_id = get_current_user_id();
 	}
 	$quiz_id = learn_press_get_quiz_id( $quiz_id );
 
 	$meta = get_user_meta( $user_id, $meta_key, true );
-	return !empty( $meta[$quiz_id] ) ? $meta[$quiz_id] : false;
+	return ! empty( $meta[ $quiz_id ] ) ? $meta[ $quiz_id ] : false;
 }
 
 /**
@@ -602,53 +504,7 @@ function learn_press_user_has_started_quiz( $user_id = null, $quiz_id = null ) {
 	return $start_time ? true : false;
 }
 
-if ( !function_exists( 'learn_press_setup_quiz_data' ) ) {
-	/**
-	 * setup quiz data if we see an ID or slug of a quiz in request params
-	 *
-	 * @author  TuNN
-	 *
-	 * @param   int|string $quiz_id_variable ID or slug of a quiz
-	 * @param              string            The name of global variable to set
-	 *
-	 * @return  object|null
-	 */
-	function learn_press_setup_quiz_data( $quiz_id_variable = 'quiz_id', $global_variable = 'quiz' ) {
-		global $post, $post_type;
-		$quiz = false;
-		// set quiz variable to a post if we are in a single quiz
 
-		if ( is_single() && 'lpr_quiz' == $post_type ) {
-			$quiz = $post;
-		} else {
-			if ( !empty( $_REQUEST[$quiz_id_variable] ) ) {
-
-				if ( isset( $GLOBALS[$global_variable] ) ) unset( $GLOBALS[$global_variable] );
-				$quiz_id = $_REQUEST[$quiz_id_variable];
-
-				// if the variable is a numeric we consider it is an ID
-				if ( is_numeric( $quiz_id ) ) {
-					$quiz = get_post( $quiz_id );
-
-				} else { // otherwise it is a slug
-					$quiz = get_posts(
-						array(
-							'name'      => $quiz_id,
-							'post_type' => 'lpr_quiz'
-						)
-					);
-					if ( is_array( $quiz ) ) {
-						$quiz = array_shift( $quiz );
-					}
-				}
-			}
-		}
-		if ( $quiz ) {
-			$GLOBALS[$global_variable] = $quiz;
-		}
-		return $quiz;
-	}
-}
 
 if ( !function_exists( 'learn_press_setup_question_data' ) ) {
 	/**
@@ -696,7 +552,6 @@ if ( !function_exists( 'learn_press_setup_question_data' ) ) {
 	}
 }
 
-//if( !function_exists( 'learn_press_process_frontend_action' ) ) {
 /**
  * initial some task before display our page
  */
@@ -715,17 +570,13 @@ function learn_press_process_frontend_action() {
 		do_action( 'learn_press_frontend_action_' . $action );
 	}
 }
-
-//}
-
 add_action( 'template_redirect', 'learn_press_process_frontend_action' );
 
 /**
  * retrieve the point of a question
+ *
  * @author  TuNN
- *
  * @param   $question_id
- *
  * @return  int
  */
 function learn_press_get_question_mark( $question_id ) {
@@ -738,9 +589,7 @@ function learn_press_get_question_mark( $question_id ) {
  * get the total mark of a quiz
  *
  * @author  TuNN
- *
  * @param   int $quiz_id
- *
  * @return  int
  */
 function learn_press_get_quiz_mark( $quiz_id = null ) {
@@ -758,7 +607,6 @@ function learn_press_get_quiz_mark( $quiz_id = null ) {
  *
  * @param null $user_id
  * @param null $quiz_id
- *
  * @return int
  */
 function learn_press_get_quiz_time_remaining( $user_id = null, $quiz_id = null ) {
@@ -788,7 +636,11 @@ function learn_press_get_quiz_time_remaining( $user_id = null, $quiz_id = null )
 }
 
 /**
+ * Get the information result of a quiz
  *
+ * @param int $user_id
+ * @param int $quiz_id
+ * @return array
  */
 function learn_press_get_quiz_result( $user_id = null, $quiz_id = null ) {
 	global $quiz;
@@ -811,7 +663,6 @@ function learn_press_get_quiz_result( $user_id = null, $quiz_id = null ) {
 	if ( $questions ) {
 		foreach ( $questions as $question_id => $options ) {
 			$ques_object = LPR_Question_Type::instance( $question_id );
-
 			if ( $ques_object && isset( $answers[$question_id] ) ) {
 				$check = $ques_object->check( array( 'answer' => $answers[$question_id] ) );
 				if ( $check['correct'] ) {
@@ -850,8 +701,6 @@ function learn_press_get_quiz_result( $user_id = null, $quiz_id = null ) {
  */
 function learn_press_frontend_action_start_quiz() {
 	global $quiz;
-
-
 	// should check user permission here to ensure user can start quiz
 	$user_id = get_current_user_id();
 	$quiz_id = $quiz->ID;
@@ -885,12 +734,8 @@ function learn_press_frontend_action_start_quiz() {
 	if ( !is_array( $quizzes ) ) $quizzes = array();
 	$quizzes[$quiz_id] = array();
 	update_user_meta( $user_id, '_lpr_quiz_question_answer', $quizzes );
-
 }
-
 add_action( 'learn_press_frontend_action_start_quiz', 'learn_press_frontend_action_start_quiz' );
-
-
 add_action( 'learn_press_frontend_action', 'learn_press_update_quiz_time' );
 
 /**
@@ -926,7 +771,7 @@ function learn_press_get_question_position( $user_id = null, $quiz_id = null, &$
 }
 
 /**
- * class for quiz body
+ * print out class for quiz body
  *
  * @param null $class
  */
@@ -961,9 +806,12 @@ function learn_press_init_quiz() {
 		if ( $quiz ) $GLOBALS['quiz'] = $quiz;
 	}
 }
-
 add_action( 'wp', 'learn_press_init_quiz' );
 
+/**
+ * Convert an object|array to json format and send it to the browser
+ * @param $response
+ */
 function learn_press_send_json( $response ) {
 	echo '<!--LPR_START-->';
 	@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
@@ -987,56 +835,23 @@ function learn_press_init_course() {
 		$course = get_post( $_REQUEST['course_id'] );
 		if ( $course ) $GLOBALS['course'] = $course;
 	}
-
-	// for test only
-	if ( !empty( $_REQUEST['reset'] ) && ( $type = $_REQUEST['reset'] ) ) {
-
-		switch ( $type ) {
-			// remove all orders of current user
-			case 'order':
-				$user_id = get_current_user_id();
-				$orders  = get_user_meta( $user_id, '_lpr_order_id' );
-				learn_press_reset_user_quiz( $user_id );
-				if ( $orders ) foreach ( $orders as $order_id ) {
-					$order = new LPR_Order( $order_id );
-					$items = $order->get_items();
-					if ( !empty( $items->products ) && $products = $items->products ) {
-						foreach ( $products as $item ) {
-							$quizzes = learn_press_get_quizzes( $item['id'] );
-							if ( $quizzes ) foreach ( $quizzes as $quiz_id ) {
-								learn_press_reset_user_quiz( $order->user_id, $quiz_id );
-							}
-						}
-					}
-					wp_delete_post( $order_id );
-				}
-				delete_user_meta( $user_id, '_lpr_order_id' );
-				delete_user_meta( $user_id, '_lpr_user_course' );
-				//learn_press
-				if ( !empty( $_REQUEST['return'] ) ) wp_redirect( $_REQUEST['return'] );
-		}
-	}
 }
-
 add_action( 'wp', 'learn_press_init_course' );
 add_action( 'the_post', 'learn_press_init_course' );
 
 function learn_press_head() {
 	if ( is_single() && 'lpr_course' == get_post_type() ) {
 		wp_enqueue_script( 'tojson', LPR_PLUGIN_URL . '/assets/js/toJSON.js' );
-		ob_start();
-		?>
-		<script>
-
-
-		</script>
-		<?php
-		learn_press_enqueue_script( preg_replace( '!</?script>!', '', ob_get_clean() ) );
 	}
 }
-
 add_action( 'wp_head', 'learn_press_head' );
 
+/**
+ * Enqueue js code to print out
+ *
+ * @param string $code
+ * @param bool $script_tag - wrap code between <script> tag
+ */
 function learn_press_enqueue_script( $code, $script_tag = false ) {
 	global $learn_press_queued_js, $learn_press_queued_js_tag;
 
@@ -1054,6 +869,9 @@ function learn_press_enqueue_script( $code, $script_tag = false ) {
 	}
 }
 
+/**
+ * Print out js code in the queue
+ */
 function learn_press_print_script() {
 	global $learn_press_queued_js, $learn_press_queued_js_tag;
 	if ( !empty( $learn_press_queued_js ) ) {
@@ -1075,34 +893,6 @@ function learn_press_print_script() {
 }
 
 add_action( 'wp_head', 'learn_press_head' );
-/*
-function learn_press_enqueue_script( $code ) {
-	global $learn_press_queued_js;
-
-	if ( empty( $learn_press_queued_js ) ) {
-		$learn_press_queued_js = '';
-	}
-
-	$learn_press_queued_js .= "\n" . $code . "\n";
-}
-
-function learn_press_print_script() {
-	global $learn_press_queued_js;
-	if ( !empty( $learn_press_queued_js ) ) {
-		echo "<!-- LearnPress JavaScript -->\n<script type=\"text/javascript\">\njQuery(function($) {\n";
-
-		// Sanitize
-		$learn_press_queued_js = wp_check_invalid_utf8( $learn_press_queued_js );
-		$learn_press_queued_js = preg_replace( '/&#(x)?0*(?(1)27|39);?/i', "'", $learn_press_queued_js );
-		$learn_press_queued_js = str_replace( "\r", '', $learn_press_queued_js );
-
-		echo $learn_press_queued_js . "\n});\n</script>\n";
-
-		unset( $learn_press_queued_js );
-	}
-}
-*/
-
 add_action( 'wp_footer', 'learn_press_print_script' );
 add_action( 'admin_footer', 'learn_press_print_script' );
 
@@ -1110,7 +900,6 @@ add_action( 'admin_footer', 'learn_press_print_script' );
  * Gets duration of a quiz
  *
  * @param null $quiz_id
- *
  * @return mixed
  */
 function learn_press_get_quiz_duration( $quiz_id = null ) {
@@ -1120,16 +909,11 @@ function learn_press_get_quiz_duration( $quiz_id = null ) {
 	return apply_filters( 'learn_press_get_quiz_duration', $duration, $quiz_id );
 }
 
-///////////////
-
-
 /**
  * Get the price of a course
  *
  * @author  Tunn
- *
  * @param   null $course_id
- *
  * @return  int
  */
 function learn_press_get_course_price( $course_id = null, $with_currency = false ) {
@@ -1152,7 +936,6 @@ function learn_press_get_course_price( $course_id = null, $with_currency = false
  * Detect if a course is free or not
  *
  * @param null $course_id
- *
  * @return bool
  */
 function learn_press_is_free_course( $course_id = null ) {
@@ -1160,25 +943,29 @@ function learn_press_is_free_course( $course_id = null ) {
 		global $course;
 		$course_id = $course ? $course->ID : 0;
 	}
-	//echo "[" . get_post_meta( $course_id, '_lpr_course_payment', true ) . "]";
 	return 'free' == get_post_meta( $course_id, '_lpr_course_payment', true );
 }
 
-
+/**
+ * Action when user press the "Take this course" button
+ *
+ * @param $course_id
+ * @param string $payment_method
+ */
 function learn_press_take_course( $course_id, $payment_method = '' ) {
 	$user            = learn_press_get_current_user();
 	$can_take_course = apply_filters( 'learn_press_before_take_course', true, $user->ID, $course_id, $payment_method );
 	if ( $can_take_course ) {
 		if ( learn_press_is_free_course( $course_id ) ) {
 			if ( $order_id = learn_press_add_transaction(
-				array(
-					'method'             => 'free',
-					'method_id'          => '',
-					'status'             => '',
-					'user_id'            => $user->ID,
-					'transaction_object' => learn_press_generate_transaction_object()
-				)
-			)
+                    array(
+                        'method'             => 'free',
+                        'method_id'          => '',
+                        'status'             => '',
+                        'user_id'            => $user->ID,
+                        'transaction_object' => learn_press_generate_transaction_object()
+                    )
+                )
 			) {
 				learn_press_update_order_status( $order_id, 'Completed' );
 				learn_press_add_message( 'message', __( 'Congratulations! You have enrolled this course' ) );
@@ -1214,7 +1001,6 @@ function learn_press_take_course( $course_id, $payment_method = '' ) {
 		echo '<!--LPR_START-->' . json_encode( $json ) . '<!--LPR_END-->';
 	}
 }
-
 add_filter( 'learn_press_take_course', 'learn_press_take_course', 5, 2 );
 
 if ( !function_exists( 'is_ajax' ) ) {
@@ -1229,8 +1015,17 @@ if ( !function_exists( 'is_ajax' ) ) {
 		return defined( 'DOING_AJAX' );
 	}
 }
+
+/**
+ * Check before user take course and if they are not logged in then redirect to login page
+ *
+ * @param $can_take
+ * @param $user_id
+ * @param $course_id
+ * @param $payment_method
+ */
 function learn_press_require_login_to_take_course( $can_take, $user_id, $course_id, $payment_method ) {
-	if ( !is_user_logged_in() ) {
+	if ( ! is_user_logged_in() ) {
 		$login_url = learn_press_get_login_url( get_permalink( $course_id ) );
 		learn_press_send_json(
 			array(
@@ -1240,21 +1035,39 @@ function learn_press_require_login_to_take_course( $can_take, $user_id, $course_
 		);
 	}
 }
-
 add_filter( 'learn_press_before_take_course', 'learn_press_require_login_to_take_course', 5, 4 );
 
+/**
+ * Filter the login url so third-party can be customize
+ *
+ * @param null $redirect
+ * @return mixed
+ */
 function learn_press_get_login_url( $redirect = null ) {
 	return apply_filters( 'learn_press_login_url', wp_login_url( $redirect ) );
 }
 
+/**
+ * When user take a course clear the cart and add the new course into cart
+ * Currently, user can be add only one course each time and do checkout right away
+ *
+ * @param $can_take
+ * @param $user_id
+ * @param $course_id
+ * @param $payment_method
+ * @return mixed
+ */
 function learn_press_before_take_course( $can_take, $user_id, $course_id, $payment_method ) {
 	// only one course in time
 	LPR_Cart::instance()->empty_cart()->add_to_cart( $course_id );
 	return $can_take;
 }
-
 add_filter( 'learn_press_before_take_course', 'learn_press_before_take_course', 5, 4 );
 
+/**
+ * @param $order_id
+ * @return array|bool
+ */
 function learn_press_get_transition_products( $order_id ) {
 	$order_items = get_post_meta( $order_id, '_learn_press_order_items', true );
 	$products    = false;
@@ -1275,73 +1088,22 @@ function learn_press_get_transition_products( $order_id ) {
 	return $products;
 }
 
-function learn_press_get_order_items( $order_id ) {
-	return get_post_meta( $order_id, '_learn_press_order_items', true );
-}
-
-function learn_press_format_price( $price, $with_currency = false ) {
-	if ( !is_numeric( $price ) )
-		$price = 0;
-	$settings = learn_press_settings( 'general' );
-	$before   = $after = '';
-	if ( $with_currency ) {
-		if ( gettype( $with_currency ) != 'string' ) {
-			$currency = learn_press_get_currency_symbol();
-		} else {
-			$currency = $with_currency;
-		}
-
-		switch ( $settings->get( 'currency_pos' ) ) {
-			default:
-				$before = $currency;
-				break;
-			case 'left_with_space':
-				$before = $currency . ' ';
-				break;
-			case 'right':
-				$after = $currency;
-				break;
-			case 'right_with_space':
-				$after = ' ' . $currency;
-		}
-	}
-
-	$price =
-		$before
-		. number_format(
-			$price,
-			$settings->get( 'number_of_decimals', 2 ),
-			$settings->get( 'decimals_separator', '.' ),
-			$settings->get( 'thousands_separator', ',' )
-		) . $after;
-
-	return $price;
-}
-
-function learn_press_transaction_order_number( $order_number ) {
-	return '#' . sprintf( "%'.010d", $order_number );
-}
-
-function learn_press_transaction_order_date( $date, $format = null ) {
-	$format = empty( $format ) ? get_option( 'date_format' ) : $format;
-	return date( $format, strtotime( $date ) );
-}
-
 /**
- * @param $take
+ * @param $can_take
  * @param $user_id
  * @param $course_id
- *
  * @return bool
  */
-function learn_press_check_user_pass_prerequisite( $user_id = null, $course_id = null ) {
+function learn_press_check_user_pass_prerequisite( $can_take, $user_id = null, $course_id = null ) {
 	$prerequisite = learn_press_user_prerequisite_courses( $user_id, $course_id );
 	return $prerequisite ? false : true;
 }
-
 add_filter( 'learn_press_before_take_course', 'learn_press_check_user_pass_prerequisite', 105, 3 );
 
-
+/**
+ * @param null $course_id
+ * @return int|null
+ */
 function learn_press_get_course_id( $course_id = null ) {
 	if ( !$course_id ) {
 		global $course;
@@ -1354,14 +1116,11 @@ function learn_press_get_course_id( $course_id = null ) {
  * count the number of students has enrolled a course
  *
  * @author  TuNN
- *
  * @param   int $course_id
- *
  * @return  int
  */
 function learn_press_count_students_enrolled( $course_id = null ) {
 	$course_id = learn_press_get_course_id( $course_id );
-	//$count = intval( get_post_meta( $course_id, '_lpr_course_number_student', true ) );
 	$count = ( $users = get_post_meta( $course_id, '_lpr_course_user', true ) ) ? sizeof( $users ) : 0;
 	return apply_filters( 'learn_press_count_student_enrolled_course', $count, $course_id );
 }
@@ -1370,9 +1129,7 @@ function learn_press_count_students_enrolled( $course_id = null ) {
  * count the number of students has passed a course
  *
  * @author  Ken
- *
  * @param   int $course_id
- *
  * @return  int
  */
 function learn_press_count_students_passed( $course_id = null ) {
@@ -1385,10 +1142,8 @@ function learn_press_count_students_passed( $course_id = null ) {
  * get current status of user's course
  *
  * @author  Tunn
- *
  * @param   int $user_id
  * @param   int $course_id
- *
  * @return  string
  */
 function learn_press_get_user_course_status( $user_id = null, $course_id = null ) {
@@ -1428,6 +1183,12 @@ function learn_press_count_student_enrolled_course( $course_id = null ) {
 	return learn_press_count_students_enrolled( $course_id );
 }
 
+/**
+ * Get the max number of students can enroll a course
+ *
+ * @param null $course_id
+ * @return mixed
+ */
 function learn_press_get_limit_student_enroll_course( $course_id = null ) {
 	$course_id = learn_press_get_course_id( $course_id );
 	$count     = intval( get_post_meta( $course_id, '_lpr_max_course_number_student', true ) );
@@ -1467,15 +1228,25 @@ function learn_press_decrement_user_enrolled( $course_id = null, $count = false 
 	update_post_meta( $course_id, '_lpr_course_number_student', $count );
 }
 
-////////////////////// payment//////////////////////////
-// woocommerce
+/**
+ * Detect to see if WooCommerce plugin is installed|activated
+ * @return bool
+ */
 function learn_press_is_woo_activate() {
-	if ( !function_exists( 'is_plugin_active' ) ) {
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-	}
-	return class_exists( 'WC_Install' ) && is_plugin_active( 'woocommerce/woocommerce.php' );
+    if ( !function_exists( 'is_plugin_active' ) ) {
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    }
+    return class_exists( 'WC_Install' ) && is_plugin_active( 'woocommerce/woocommerce.php' );
 }
 
+/**
+ * Check to see if a user can retake a quiz they have completed
+ * Only for the quiz that allows user can retake
+ *
+ * @param null $quiz_id
+ * @param null $user_id
+ * @return bool
+ */
 function learn_press_user_can_retake_quiz( $quiz_id = null, $user_id = null ) {
 	$quiz_id = learn_press_get_quiz_id( $quiz_id );
 	if ( !$user_id ) {
@@ -1501,6 +1272,14 @@ function learn_press_user_can_retake_quiz( $quiz_id = null, $user_id = null ) {
 	return $taken < $available;
 }
 
+/**
+ * Check to see if user can retake a course they have finished
+ * Only for the course that allows user can retake
+ *
+ * @param null $course_id
+ * @param null $user_id
+ * @return bool
+ */
 function learn_press_user_can_retake_course( $course_id = null, $user_id = null ) {
 	$course_id = learn_press_get_course_id( $course_id );
 	if ( !$user_id ) {
@@ -1522,19 +1301,26 @@ function learn_press_user_can_retake_course( $course_id = null, $user_id = null 
         AND meta_value = %d
     ", $user_id, '_lpr_course_taken', $course_id );
 	$taken = $wpdb->get_var( $query );
-	//if( $taken == 0 ) update_user_meta( $user_id, '_lpr_course_taken', $course_id );
 	return $taken < $available;
 }
 
+/**
+ * Add a message into queue and then print out
+ *
+ * @param $type
+ * @param $message
+ */
 function learn_press_add_message( $type, $message ) {
 	$messages = get_transient( 'learn_press_message' );
 	if ( !$messages ) $messages = array();
 	if ( empty( $messages[$type] ) ) $messages[$type] = array();
 	$messages[$type][] = $message;
 	set_transient( 'learn_press_message', $messages, HOUR_IN_SECONDS );
-
 }
 
+/**
+ * Print out the message stored in the queue
+ */
 function learn_press_show_message() {
 	$messages = get_transient( 'learn_press_message' );
 	if ( $messages ) foreach ( $messages as $type => $message ) {
@@ -1546,7 +1332,6 @@ function learn_press_show_message() {
 	}
 	delete_transient( 'learn_press_message' );
 }
-
 add_action( 'learn_press_before_main_content', 'learn_press_show_message', 50 );
 
 /**
@@ -1554,7 +1339,6 @@ add_action( 'learn_press_before_main_content', 'learn_press_show_message', 50 );
  *
  * @param int $user_id
  * @param int $quiz_id
- *
  * @return boolean
  */
 function learn_press_user_can_view_quiz( $user_id = null, $quiz_id = null ) {
@@ -1568,11 +1352,7 @@ function learn_press_user_can_view_quiz( $user_id = null, $quiz_id = null ) {
 
 	if ( !$quiz_id ) return false;
 	$course_id = get_post_meta( $quiz_id, '_lpr_course', true );
-	//return true;
 	return learn_press_is_enrolled_course( $course_id, $user_id );
-	//
-	$status = strtolower( learn_press_get_user_course_status( $user_id, $course_id ) );
-	return 'completed' == $status;
 }
 
 /**
@@ -1580,7 +1360,6 @@ function learn_press_user_can_view_quiz( $user_id = null, $quiz_id = null ) {
  * then try to get it from $_REQUEST
  *
  * @param null $lesson_id
- *
  * @return int|null
  */
 function learn_press_get_lesson_id( $lesson_id = null ) {
@@ -1594,7 +1373,6 @@ function learn_press_get_lesson_id( $lesson_id = null ) {
  * Get page id from admin settings page
  *
  * @param string $name
- *
  * @return int
  */
 function learn_press_get_page_id( $name ) {
@@ -1602,13 +1380,18 @@ function learn_press_get_page_id( $name ) {
 	return $settings->get( "general.{$name}_page_id", false );
 }
 
+/**
+ * Get path of the plugin include the sub path if passed
+ *
+ * @param string $sub
+ * @return string
+ */
 function learn_press_plugin_path( $sub = null ) {
 	return $sub ? LPR_PLUGIN_PATH . '/' . untrailingslashit( $sub ) . '/' : LPR_PLUGIN_PATH;
 }
 
 /**
  * @param null $quiz_id
- *
  * @return bool|int
  */
 function learn_press_get_current_question( $quiz_id = null ) {
@@ -1627,10 +1410,8 @@ function learn_press_get_current_question( $quiz_id = null ) {
  * get the course of a lesson
  *
  * @author TuNguyen
- *
  * @param int     $lesson_id
  * @param boolean $id_only
- *
  * @return mixed
  */
 function learn_press_get_course_by_lesson( $lesson_id, $id_only = true ) {
@@ -1642,6 +1423,13 @@ function learn_press_get_course_by_lesson( $lesson_id, $id_only = true ) {
 	return $course;
 }
 
+/**
+ * Retrieves the course that a quiz is assigned to
+ *
+ * @param $quiz_id
+ * @param bool $id_only
+ * @return mixed
+ */
 function learn_press_get_course_by_quiz( $quiz_id, $id_only = true ) {
 	$course = get_post_meta( $quiz_id, '_lpr_course', true );
 	if ( !$id_only ) {
@@ -1654,10 +1442,8 @@ function learn_press_get_course_by_quiz( $quiz_id, $id_only = true ) {
  * mark a lesson is completed for a user
  *
  * @author TuNguyen
- *
  * @param int $lesson_id
  * @param int $user_id
- *
  * @return boolean
  */
 function learn_press_mark_lesson_complete( $lesson_id, $user_id = null ) {
@@ -1685,6 +1471,14 @@ function learn_press_mark_lesson_complete( $lesson_id, $user_id = null ) {
 	return true;
 }
 
+/**
+ * Check to see if a user can be finished a course
+ *
+ * @param null $course_id
+ * @param null $user_id
+ * @param int $passing_condition
+ * @return bool
+ */
 function learn_press_user_can_finish_course( $course_id = null, $user_id = null, $passing_condition = 0 ) {
 	$course_id = learn_press_get_course_id( $course_id );
 	if ( !$user_id ) $user_id = get_current_user_id();
@@ -1706,7 +1500,6 @@ function learn_press_user_can_finish_course( $course_id = null, $user_id = null,
  *
  * @param null $course_id
  * @param null $user_id
- *
  * @return bool
  */
 function learn_press_user_has_completed_all_parts( $course_id = null, $user_id = null ) {
@@ -1815,6 +1608,12 @@ function learn_press_get_lessons_quizzes( $course_id = null, $id_only = true ) {
 	return $posts;
 }
 
+/**
+ * Mark a quiz is completed for an user
+ *
+ * @param int $quiz_id
+ * @param int $user_id
+ */
 function learn_press_mark_quiz_complete( $quiz_id = null, $user_id = null ) {
 	$quiz_id = learn_press_get_quiz_id( $quiz_id );
 	if ( !learn_press_user_has_completed_quiz( $quiz_id ) ) {
@@ -1892,10 +1691,10 @@ function learn_press_finish_course( $course_id = null, $user_id = null ) {
 	$course_finished   = array_unique( $course_finished );
 	update_user_meta( $user_id, '_lpr_course_finished', $course_finished );
 
-	$user_finished = get_post_meta( $course_id, '_lpr_user_finished', true );
-	if( ! $user_finished ) $user_finished = array();
-	$user_finished[] = $user_id;
-	update_post_meta( $course_id, '_lpr_user_finished', $user_finished );
+    $user_finished = get_post_meta( $course_id, '_lpr_user_finished', true );
+    if( ! $user_finished ) $user_finished = array();
+    $user_finished[] = $user_id;
+    update_post_meta( $course_id, '_lpr_user_finished', $user_finished );
 
 
 	$lesson_quiz = learn_press_get_lessons_quizzes( $course_id, false );
@@ -1935,12 +1734,24 @@ function learn_press_user_has_finished_course( $course_id = null, $user_id = nul
 	return $finished;
 }
 
+/**
+ * Get the passing condition set in a course
+ *
+ * @param null $course_id
+ * @return int
+ */
 function learn_press_get_course_passing_condition( $course_id = null ) {
 	$course_id = learn_press_get_course_id( $course_id );
-
 	return intval( get_post_meta( $course_id, '_lpr_course_condition', true ) );
 }
 
+/**
+ * Check to see if a user has enrolled course or not
+ *
+ * @param null $course_id
+ * @param null $user_id
+ * @return bool
+ */
 function learn_press_user_has_enrolled_course( $course_id = null, $user_id = null ){
 	$course_id = learn_press_get_course_id( $course_id );
 	if( ! $user_id ) $user_id = get_current_user_id();
@@ -1949,11 +1760,20 @@ function learn_press_user_has_enrolled_course( $course_id = null, $user_id = nul
 	return is_array( $courses ) && in_array( $course_id, $courses );
 }
 
+/**
+ * Get the array of the courses that user has enrolled
+ *
+ * @param $user_id
+ * @return mixed
+ */
 function learn_press_get_user_courses( $user_id ) {
 	$courses = get_user_meta( $user_id, '_lpr_user_course', true );
 	return $courses;
 }
 
+/**
+ * Auto eval the result of the course and mark it as finished if the time is over
+ */
 function learn_press_auto_evaluation_course() {
 	$user_id = get_current_user_id();
 	$courses = learn_press_get_user_courses( $user_id );
@@ -1983,9 +1803,15 @@ function learn_press_auto_evaluation_course() {
 		}
 	}
 }
-
 add_action( 'learn_press_frontend_action', 'learn_press_auto_evaluation_course' );
 
+/**
+ * Update course into user's metadata if order status is "Completed" -> user enrolled course
+ * Otherwise, remove course from user's metadata -> user hasn't enrolled course
+ *
+ * @param $status
+ * @param $order_id
+ */
 function learn_press_active_user_course( $status, $order_id ) {
 	$order            = new LPR_Order( $order_id );
 	$user             = $order->get_user();
@@ -2011,9 +1837,16 @@ function learn_press_active_user_course( $status, $order_id ) {
 	}
 
 }
-
 add_action( 'learn_press_update_order_status', 'learn_press_active_user_course', 10, 2 );
 
+
+/**
+ * Calculate the time remain for a course from it is started to now
+ *
+ * @param null $course_id
+ * @param null $user_id
+ * @return bool|int|string
+ */
 function learn_press_get_course_remaining_time( $course_id = null, $user_id = null ) {
 	$course_id = learn_press_get_course_id( $course_id );
 	if ( !$user_id ) $user_id = get_current_user_id();
@@ -2041,7 +1874,6 @@ function learn_press_get_course_remaining_time( $course_id = null, $user_id = nu
  *
  * @param  int $quiz_id
  * @param  int $user_id
- *
  * @return array
  */
 function learn_press_get_user_quiz_questions( $quiz_id = null, $user_id = null ) {
@@ -2128,7 +1960,7 @@ function learn_press_get_course_result( $course_id = null, $user_id = null ){
 }
 
 /**
- * Add script on frontend
+ * Translate text used for js code
  */
 function learn_press_frontent_script() {
 	if ( defined( 'DOING_AJAX' ) || is_admin() ) return;
@@ -2144,22 +1976,21 @@ add_action( 'wp', 'learn_press_frontent_script' );
 if ( !empty( $_REQUEST['payment_method'] ) ) {
 	add_action( 'learn_press_frontend_action', array( 'LPR_AJAX', 'take_course' ) );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Include js template
+ */
 function learn_press_admin_js_template() {
 	if( 'lpr_lesson' == get_post_type() ) {
 		require_once LPR_PLUGIN_PATH . '/inc/lpr-js-template.php';
 	}
 }
-
 add_action( 'admin_print_scripts', 'learn_press_admin_js_template' );
 
 /**
- * tinymce option get the keys user pressed
+ * tinymce options to process the keys user pressed
  *
  * @param  array
- *
  * @return array
  */
 function learn_press_tiny_mce_before_init( $initArray ) {
@@ -2199,6 +2030,5 @@ function learn_press_tiny_mce_before_init( $initArray ) {
 JS;
 	return $initArray;
 }
-
 add_filter( 'tiny_mce_before_init', 'learn_press_tiny_mce_before_init' );
 

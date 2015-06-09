@@ -11,41 +11,48 @@ Author URI: http://thimpress.com
 defined( 'ABSPATH' ) || exit;
 
 if ( !class_exists( 'LearnPress' ) ) {
+    /**
+     * Class LearnPress
+     */
 	class LearnPress {
 
 		/**
+         * Current version of the plugin
 		 * @var string
-		 * @since 1.0
 		 */
 		public $version = '1.0';
 
 		/**
-		 * @var object The single instance of the class
-		 * @since 1.0
+         * The single instance of the class
+         *
+		 * @var object
 		 */
 		protected static $_instance = null;
 
 		/**
+         * Store the url of the plugin
+         *
 		 * @var string
-		 * @since 1.0
 		 */
 		public $plugin_url;
 
 		/**
+         * Store the path of the plugin
+         *
 		 * @var string
-		 * @since 1.0
 		 */
 		public $plugin_path;
 
 		/**
-		 * The array of templates that this plugin tracks.
+		 * Store the session class
 		 *
 		 * @var      array
 		 */
+		public $session = null;
 
-		public $session;
-		protected $templates;
-
+        /**
+         * Constructor
+         */
 		public function __construct() {
 
 			// Define the url and path of plugin
@@ -124,7 +131,7 @@ if ( !class_exists( 'LearnPress' ) ) {
 		}
 
 		/**
-		 *
+		 * Load all add-ons provided by the plugin
 		 */
 		function load_core_add_ons() {
 			// Auto load to include core-addon
@@ -150,13 +157,9 @@ if ( !class_exists( 'LearnPress' ) ) {
 			require_once 'inc/custom-post-types/order.php';
 		}
 
-		/**
-		 * admin includes
-		 */
-		function admin_includes() {
-
-		}
-
+        /**
+         * Initial common hooks
+         */
 		function init_hooks() {
 
 			register_activation_hook( __FILE__, array( 'LPR_Install', 'install' ) );
@@ -175,12 +178,15 @@ if ( !class_exists( 'LearnPress' ) ) {
 
 			// redirect to our template if needed
 			add_action( 'template_redirect', 'learn_press_handle_purchase_request' );
-			add_action( 'template_redirect', 'learn_press_template_redirect', 999 );
+			//add_action( 'template_redirect', 'learn_press_template_redirect', 999 );
+           // add_action( 'template_include', 'learn_press_template_include', 5 );
 
 		}
 
+        /**
+         * Init LearnPress when WP initialises
+         */
 		function init() {
-
 
 			// Session class, handles session data for users - can be overwritten if custom handler is needed
 			$session_class = apply_filters( 'learn_press_session_handler', 'LPR_Session' );
@@ -199,13 +205,6 @@ if ( !class_exists( 'LearnPress' ) ) {
 			if ( file_exists( $file = LPR_PLUGIN_PATH . "/inc/admin/sub-menus/{$file}.php" ) ) {
 				require_once $file;
 			}
-
-			//if( ! is_admin() ) {
-
-
-			// }
-
-
 		}
 
 		/**
@@ -280,10 +279,11 @@ if ( !class_exists( 'LearnPress' ) ) {
 				// Include short-code file
 				require_once 'inc/shortcodes/profile-page.php';
 
-				// include template functions
-				require_once( 'inc/lpr-template-functions.php' );
-				require_once( 'inc/lpr-template-hooks.php' );
+
 			}
+            // include template functions
+            require_once( 'inc/lpr-template-functions.php' );
+            require_once( 'inc/lpr-template-hooks.php' );
 			// settings
 			require_once 'inc/class.lpr-settings.php';
 			// simple cart
@@ -435,6 +435,9 @@ if ( !class_exists( 'LearnPress' ) ) {
 			$admin->add_cap( 'edit_others_lpr_orders' );
 		}
 
+        /**
+         * Include files of enabled add ons
+         */
 		public function include_enable_add_on() {
 			$enabled_addons = learn_press_get_enabled_add_ons();
 			$add_ons        = learn_press_get_add_ons();
@@ -521,5 +524,6 @@ function load_learn_press() {
 
 }
 
+// Done! entry point of the plugin
 add_action( 'plugins_loaded', 'load_learn_press' );
 

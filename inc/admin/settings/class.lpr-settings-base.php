@@ -8,6 +8,10 @@ class LPR_Settings_Base{
     protected $text = '';
     protected $section  = false;
     protected $tab      = false;
+
+    /**
+     * Constructor     
+     */    
     function __construct(){
 
         $current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : '';

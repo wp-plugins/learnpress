@@ -4,16 +4,16 @@ if ( !defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( !class_exists( 'LPR_ADMIN_AJAX' ) ) {
+if ( !class_exists( 'LPR_Admin_Ajax' ) ) {
 
 	/**
-	 * Class LPR_ADMIN_AJAX
+	 * Class LPR_Admin_Ajax
 	 */
-	class LPR_ADMIN_AJAX {
+	class LPR_Admin_Ajax {
 		/**
 		 * Add action ajax
 		 */
-		public static function init() {
+		public static function init(){
 			$ajaxEvents = array(
 				'quick_add_lesson'      => false,
 				'quick_add_quiz'        => false,
@@ -27,19 +27,25 @@ if ( !class_exists( 'LPR_ADMIN_AJAX' ) ) {
 			foreach ( $ajaxEvents as $ajaxEvent => $nopriv ) {
 				add_action( 'wp_ajax_learnpress_' . $ajaxEvent, array( __CLASS__, $ajaxEvent ) );
 
+                // enable for non-logged in users
 				if ( $nopriv ) {
 					add_action( 'wp_ajax_nopriv_learnpress_' . $ajaxEvent, array( __CLASS__, $ajaxEvent ) );
 				}
 			}
 		}
 
+        /**
+         * Output the image to browser with text and params passed via $_GET
+         */
         public static function dummy_image(){
             $text = ! empty( $_REQUEST['text'] ) ? $_REQUEST['text'] : '';
-
             learn_press_text_image( $text, $_GET );
             die();
         }
 
+        /**
+         * Get edit|view link of a page
+         */
         public static function get_page_permalink(){
             $page_id = ! empty( $_REQUEST['page_id'] ) ? $_REQUEST['page_id'] : '';
             ?>
@@ -49,6 +55,9 @@ if ( !class_exists( 'LPR_ADMIN_AJAX' ) ) {
             die();
         }
 
+        /**
+         * Create a new page with the title passed via $_REQUEST
+         */
         public static function create_page(){
             $title = ! empty( $_REQUEST['title'] ) ? $_REQUEST['title'] : '';
             $response = array();
@@ -72,6 +81,9 @@ if ( !class_exists( 'LPR_ADMIN_AJAX' ) ) {
             die();
         }
 
+        /**
+         *
+         */
 		public function custom_stats() {
 			$from      = !empty( $_REQUEST['from'] ) ? $_REQUEST['from'] : 0;
 			$to        = !empty( $_REQUEST['to'] ) ? $_REQUEST['to'] : 0;
@@ -113,6 +125,9 @@ if ( !class_exists( 'LPR_ADMIN_AJAX' ) ) {
 			die;
 		}
 
+        /**
+         * Add a new quiz with the title only
+         */
 		public static function quick_add_quiz() {
 			$quiz_title = $_POST['quiz_title'];
 
@@ -152,4 +167,4 @@ if ( !class_exists( 'LPR_ADMIN_AJAX' ) ) {
 		}
 	}
 }
-LPR_ADMIN_AJAX::init();
+LPR_Admin_Ajax::init();

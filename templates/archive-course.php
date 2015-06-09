@@ -6,6 +6,7 @@ if ( !defined( 'ABSPATH' ) ) {
 
 get_header(); ?>
 <?php //echo __FILE__;?>
+
 <section id="primary" class="content-area">
 	<main id="main" class="site-main" role="main">
 
@@ -32,5 +33,4 @@ get_header(); ?>
 	</main>
 	<!-- .site-main -->
 </section><!-- .content-area -->
-
 <?php get_footer(); ?>
