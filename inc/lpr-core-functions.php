@@ -899,6 +899,11 @@ function learn_press_template_loader( $template ) {
         $find[] = $file;
         //$find[] = learn_press_plugin_path( 'templates/' ) . $file;
         $find[] = 'learnpress/' . $file;
+    } else if ( get_post_type() == 'lpr_quiz' ) {
+        $file   = 'single-quiz.php';
+        $find[] = $file;
+        //$find[] = learn_press_plugin_path( 'templates/' ) . $file;
+        $find[] = 'learnpress/' . $file;
     }
 
 	if ( $file ) {
@@ -908,7 +913,6 @@ function learn_press_template_loader( $template ) {
 			$template = learn_press_plugin_path( 'templates/' ) . $file;
 		}
 	}
-    //echo "XXXXXXXXXXX[$template]";
 	return $template;
 }
 
