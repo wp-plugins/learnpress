@@ -1,4 +1,4 @@
-===  Plugin Name ===  
+===  LearnPress - WordPress LMS Plugin ===  
 Contributors: thimpress, halink0803, thongta, kendy73, tunnhn  
 Donate link:  
 Tags: lms, elearning, e-learning, learning management system, education, course, courses, quiz, quizzes, questions, training, guru, sell courses  
@@ -8,20 +8,20 @@ Stable tag: trunk
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
-LearnPress is a WordPress complete solution for creating a Learning Management System (LMS). It can help you to create course, lesson and quizzes.  
+LearnPress is a WordPress LMS Plugin complete solution for creating a Learning Management System. LearnPress is for creating course, lesson and quiz.
 
 == Description ==  
 
-LearnPress is a comprehensive LMS solution for WordPress. This WordPress LMS Plugin can be used to easily create & sell courses online. Each course curriculum can be made with lessons & quizzes which can be managed with easy-to-use user interface, we really made it for lazy people.  
+LearnPress is a comprehensive WordPress LMS Plugin for WordPress. This WordPress LMS Plugin can be used to easily create & sell courses online. Each course curriculum can be made with lessons & quizzes which can be managed with easy-to-use user interface, we really made it for lazy people.  
 
-**LearnPress works with your theme**  
-We create LearnPress to work with any WordPress theme.  
+**LearnPress LMS Plugin works with your theme**  
+We create LearnPress LMS Plugin to work with any WordPress themes.
 
 **LearnPress Support WordPress Multisites**
 
-**LearnPress features**  
+**LearnPress features**
 *Create course*  
-LearnPress provide an excellent user interface to create a course with options you need. You can find it easy to make a full curriculum layout as well as edit and maintain it.
+LearnPress LMS Plugin provide an excellent user interface to create a course with options you need. You can find it easy to make a full curriculum layout as well as edit and maintain it.
 You can also export course and import to other website which also using LearnPress. We will provide the feature allow you to import course from other WordPress LMS plugins soon.  
 
 *Manage course*  
@@ -42,7 +42,7 @@ Education should be free and we want you to bring it to as many people as you ca
 **LearnPress is actively developed**  
 We are developing and improving LearnPress day by day and bringing new features to you cos we want LearnPress to become the best WordPress plugin in LMS.
 
-Any suggestions for us? Send us [here](http://thimpress.com/learnpress-suggestion/)
+Any suggestions for this WordPress LMS Plugin? Send us [here](http://thimpress.com/learnpress-suggestion/)
 
 == Installation ==
 
