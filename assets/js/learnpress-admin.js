@@ -2,8 +2,7 @@
  * Created by foobla on 3/10/2015.
  */
 
-if( typeof FormPress == 'undefined' ) FormPress = {};
-
+if( typeof LearnPress == 'undefined' ) LearnPress = {};
 
 jQuery(document).ready(function ($) {
 	$('.meta_box_edit').click(function (event) {
@@ -289,16 +288,60 @@ lprHook.addAction('lpr_admin_quiz_question_html', _lprAdminQuestionHTML);
 
 		$('input.lpr-fancy-checkbox')
 			.on('change', function () {
-				if (!$(this).data('iscore')) {
-					window.location.href = $(this).data('url');
-				} else {
-					$.post($(this).data('url'), function () {
-						window.location.href = window.location.href;
-					});
-				}
+                var $chk = $(this),
+                    state = $(this).data('state'),
+                    checked = $(this).is(':checked');
+
+                /*if( ( checked  && state == 'disabled' ) || ( ! checked && state == 'enabled' )  ){
+                    $(this).siblings('.add-on-state').addClass('change');
+                }else{
+                    $(this).siblings('.add-on-state').removeClass('change');
+                }
+
+                if( $('.add-on-state:visible').length ){
+                    $('#learn-press-add-ons-apply').removeAttr('disabled');
+                    $('#learn-press-add-on-state-changed-message').fadeIn();
+                }else{
+                    $('#learn-press-add-ons-apply').attr('disabled', 'disabled');
+                    $('#learn-press-add-on-state-changed-message').fadeOut();
+                }
+                return;*/
+                $.ajax({
+                    url: ajaxurl,
+                    data: {
+                        url: $chk.attr('data-url'),
+                        plugin: $chk.attr('data-plugin'),
+                        t: checked ? 'activate' : 'deactivate',
+                        action: 'learnpress_update_add_on_status'
+                    },
+                    success: function(response){
+
+                        $chk.attr('data-url', response.url)
+                            .attr('state', response.status)
+
+                    }
+                })
 			})
 			.lprFancyCheckbox();
-
+        $('#learn-press-add-ons-wrap').on('click', '.plugin-action-buttons a', function(evt){
+            evt.preventDefault();
+            var $link = $(this), action = $link.data('action');
+            $.ajax({
+                url: $link.attr('href'),
+                dataType: 'html',
+                success: function(response){
+                    if(action == 'install-now'){
+                        if( $link.hasClass('thimpress') ){
+                            response = LearnPress.parse_json( response );
+                            if( response.destination_name ){
+                                $link.attr('disabled', 'disabled').html(response.text).removeAttr('href');
+                            }
+                        }
+                    }
+                    //$link.replaceWith( $(response.button) );
+                }
+            })
+        });
         (function() {
             var boxes = $('.post-type-lpr_quiz, .post-type-lpr_course, .post-type-lpr_lesson, .post-type-lpr_question').find('#postbox-container-1');
             if( !boxes.length ) return;
@@ -423,7 +466,20 @@ lprHook.addAction('lpr_admin_quiz_question_html', _lprAdminQuestionHTML);
 
     })
 
-    $.extend( FormPress, {
+    $.extend( LearnPress, {
+        parse_json: function(response){
+            if( typeof reposnse == 'object' ) return response;
+            try {
+                var m = response.match(/<!--LPR_START-->(.*)<!--LPR_END-->/)
+
+                if (m && m[1]) {
+                    response = JSON.parse(m[1])
+                } else {
+                    response = JSON.parse(response)
+                }
+            }catch(e){ response = {} }
+            return response;
+        },
         block_page: function(args){
             var block_page = $( '#lpr-page-block' );
             if( block_page.length == 0 ){
