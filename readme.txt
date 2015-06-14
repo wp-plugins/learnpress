@@ -44,16 +44,21 @@ Education should be free and we want you to bring it to as many people as you ca
 **LearnPress is actively developed**  
 We are developing and improving LearnPress day by day and bringing new features to you cos we want LearnPress to become the best WordPress plugin in LMS.
 
+**Free Plugins (add-ons) for LearnPress WordPress LMS Plugin**
+
+- Wishlist (waiting for approval on WordPress.org) - add courses to a wishlist for students.
+- Review (waiting for approval on WordPress.org) - review course for enrolled students.
+- Export/Import Courses (waiting for approval on WordPress.org) - export or import course or courses out-of-box.
+- Prerequisites Courses (waiting for approval on WordPress.org) - require student to pass some courses in order to enroll other course.
+- bbPress (waiting for approval on WordPress.org) - add bbPress Forum support for LearnPress.
+- BuddyPress (waiting for approval on WordPress.org) - add BuddyPress support for LearnPress.
+
 **Premium Plugins (add-ons) for LearnPress WordPress LMS Plugin**
 
 - [Certificates add-on for LearnPress](http://thimpress.com/shop/certificates-add-on-for-learnpress/) - adding drag & drop certificates builder as well as selecting designed certificate for each LMS course, your student will get particular certificate when they finished a course.
-
 - [Co-instructors add-on for LearnPress](http://thimpress.com/shop/co-instructors-add-on-for-learnpress/) - multiple instructors support for each LMS course.
-
 - [Collections add-on for LearnPress](http://thimpress.com/shop/collections-add-on-for-learnpress/) - making LMS courses collection by selecting number of courses, this is helpful if you want to combine multiple LMS courses into a collection for a group of skills.
-
 - [Stripe Payment method for LearnPress](http://thimpress.com/shop/stripe-add-on-for-learnpress/) - Stripe payment method for LearnPress WordPress LMS Plugin.
-
 - [WooCommerce add-on for LearnPress](http://thimpress.com/shop/woocommerce-add-on-for-learnpress/) - using WooCommerce as payment gateway for LearnPrss WordPress LMS Plugin.
 
 Any suggestions for this WordPress LMS Plugin? Send us <a href="http://thimpress.com/learnpress-suggestion/" target="_blank">here.</a>
