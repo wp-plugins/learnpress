@@ -17,7 +17,7 @@ LearnPress is a WordPress LMS Plugin complete solution for creating a Learning M
 **LearnPress LMS Plugin works with your theme**  
 We create LearnPress LMS Plugin to work with any WordPress themes.  
 
-**LearnPress Support WordPress Multisites**  
+**LearnPress Support WordPress Multisites**
 
 **LearnPress features**  
 *Create course*  
@@ -43,6 +43,13 @@ Education should be free and we want you to bring it to as many people as you ca
 
 **LearnPress is actively developed**  
 We are developing and improving LearnPress day by day and bringing new features to you cos we want LearnPress to become the best WordPress plugin in LMS.
+
+**Premium Plugins (add-ons) for LearnPress WordPress LMS Plugin**
+- [Certificates add-on for LearnPress](http://thimpress.com/shop/certificates-add-on-for-learnpress/) - adding drag & drop certificates builder as well as selecting designed certificate for each LMS course, your student will get particular certificate when they finished a course.
+- [Co-instructors add-on for LearnPress](http://thimpress.com/shop/co-instructors-add-on-for-learnpress/) - multiple instructors support for each LMS course.
+- [Collections add-on for LearnPress](http://thimpress.com/shop/collections-add-on-for-learnpress/) - making LMS courses collection by selecting number of courses, this is helpful if you want to combine multiple LMS courses into a collection for a group of skills.
+- [Stripe Payment method for LearnPress](http://thimpress.com/shop/stripe-add-on-for-learnpress/) - Stripe payment method for LearnPress WordPress LMS Plugin.
+- [WooCommerce add-on for LearnPress](http://thimpress.com/shop/woocommerce-add-on-for-learnpress/) - using WooCommerce as payment gateway for LearnPrss WordPress LMS Plugin.
 
 Any suggestions for this WordPress LMS Plugin? Send us <a href="http://thimpress.com/learnpress-suggestion/" target="_blank">here.</a>
 
@@ -102,10 +109,10 @@ Yes, you can and we appreciate it. Join in our <a href="https://github.com/Learn
 - Fix bug show certificate after user finished a course.  
 
 = 0.9.1 =  
-The first beta release.  
+- The first beta release.
 
 == Upgrade Notice ==  
-Later :)  
+- Later :)
 
 == Other note ==  
 <a href="http://docs.thimpress.com/learnpress" target="_blank">Documentation</a> is available in ThimPress site.  
