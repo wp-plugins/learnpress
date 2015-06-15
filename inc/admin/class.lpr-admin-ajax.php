@@ -65,7 +65,9 @@ if ( !class_exists( 'LPR_Admin_Ajax' ) ) {
                             'action' => 'install'
                         )
                     );
+                    //$response = array();
                     $result = $wp_upgrader->install_package($options);
+
                     if (is_wp_error($result)) {
                         $response['error'] = $result;
                     }else{

@@ -326,6 +326,8 @@ lprHook.addAction('lpr_admin_quiz_question_html', _lprAdminQuestionHTML);
         $('#learn-press-add-ons-wrap').on('click', '.plugin-action-buttons a', function(evt){
             evt.preventDefault();
             var $link = $(this), action = $link.data('action');
+            if( ! action ) return;
+            $link.addClass('disabled spinner');
             $.ajax({
                 url: $link.attr('href'),
                 dataType: 'html',
@@ -333,9 +335,16 @@ lprHook.addAction('lpr_admin_quiz_question_html', _lprAdminQuestionHTML);
                     if(action == 'install-now'){
                         if( $link.hasClass('thimpress') ){
                             response = LearnPress.parse_json( response );
+                            $link.removeClass( 'spinner' );
+                            var message = null;
                             if( response.destination_name ){
-                                $link.attr('disabled', 'disabled').html(response.text).removeAttr('href');
+                                $link.addClass('disabled').html(response.text).removeAttr('href').removeAttr('data-action');
+                                message = $(wp.template('add-on-install-success')({name: $link.attr('data-name')}));
+                            }else{
+                                $link.removeClass('disabled');
+                                message = $(wp.template('add-on-install-error')({name: $link.attr('data-name')}));
                             }
+                            message.insertBefore( $('> h2', '#learn-press-add-ons-wrap') )
                         }
                     }
                     //$link.replaceWith( $(response.button) );

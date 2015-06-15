@@ -3,6 +3,23 @@ if ( !defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
+global $learn_press_add_ons;
+
+$learn_press_add_ons['bundle_activate'] = array(
+    'learnpress-course-review',
+    'learnpress-import-export',
+    'learnpress-prerequisites',
+    'learnpress-wishlist'
+);
+$learn_press_add_ons['more'] = array(
+    'learnpress-bbpress',
+    'learnpress-buddypress',
+    'learnpress-course-review',
+    'learnpress-import-export',
+    'learnpress-prerequisites',
+    'learnpress-wishlist'
+);
+
 require_once( LPR_PLUGIN_PATH . '/inc/admin/class-lpr-upgrader.php');
 /**
  * Default tabs for add ons page
@@ -10,6 +27,7 @@ require_once( LPR_PLUGIN_PATH . '/inc/admin/class-lpr-upgrader.php');
  * @return array
  */
 function learn_press_get_add_on_tabs(){
+    global $learn_press_add_ons;
     $all_plugins = learn_press_get_add_ons();
     $defaults = array(
         'all'       => array(
@@ -17,18 +35,13 @@ function learn_press_get_add_on_tabs(){
             'class' => '',
             'url'   => ''
         ),
-//        'enabled'   => array(
-//            'text'  => __( 'Enabled', 'learn_press' ),
-//            'class' => '',
-//            'url'   => ''
-//        ),
-//        'disabled'  => array(
-//            'text'  => __( 'Disabled', 'learn_press' ),
-//            'class' => '',
-//            'url'   => ''
-//        ),
+        'bundle_activate'  => array(
+            'text'  => sprintf( __( 'Bundle Activate <span class="count">(%s)</span>', 'learn_press' ), sizeof( $learn_press_add_ons['bundle_activate'] ) ),__( '', 'learn_press' ),
+            'class' => '',
+            'url'   => ''
+        ),
         'more'  => array(
-            'text'  => __( 'Get more', 'learn_press' ),
+            'text'  => sprintf( __( 'Get more <span class="count">(%s)</span>', 'learn_press' ), sizeof( $learn_press_add_ons['more'] ) ),__( '', 'learn_press' ),
             'class' => '',
             'url'   => ''
         )
@@ -153,9 +166,27 @@ function learn_press_add_ons_content_tab_more( $current ){
     $total_pages = $list_table->get_pagination_arg( 'total_pages' );
     echo '<div class="learn-press-add-ons">';
     $list_table->display();
+
+    if( 'bundle_activate' == $current ){
+        echo '<button class="button" type="button">' . __( 'Install and/or activate all', 'learn_press' ) . '</button>';
+    }
+
     echo '</div>';
+    ?>
+    <script type="text/html" id="tmpl-add-on-install-error">
+        <div class="error">
+            <p><?php _e( 'Plugin <i>\'{{data.name}}\'</i> install failed! Please try again' );?></p>
+        </div>
+    </script>
+    <script type="text/html" id="tmpl-add-on-install-success">
+        <div class="updated">
+            <p><?php _e( 'Plugin <i>\'{{data.name}}\'</i> install completed!' );?></p>
+        </div>
+    </script>
+    <?php
 }
 add_action( 'learn_press_add_ons_content_tab_more', 'learn_press_add_ons_content_tab_more' );
+add_action( 'learn_press_add_ons_content_tab_bundle_activate', 'learn_press_add_ons_content_tab_more' );
 
 function learn_press_output_add_ons_list( $add_ons, $tab = '' ){
 
@@ -267,6 +298,11 @@ function learn_press_output_add_ons_list( $add_ons, $tab = '' ){
     }
     echo '</ul>';
 }
+
+function learn_press_add_on_admin_script(){
+    wp_enqueue_media();
+}
+add_action( 'admin_enqueue_scripts', 'learn_press_add_on_admin_script' );
 return;
 class LPR_Plugins_List_Table extends WP_List_Table {
     public function __construct( $args = array() ) {

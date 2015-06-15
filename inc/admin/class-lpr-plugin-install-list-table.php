@@ -96,21 +96,13 @@ class LPR_Plugin_Install_List_Table extends WP_List_Table {
         $this->items = $plugins;
     }
 
-    private function _get_items_from_thimpress(){
-        $cache = WP_CONTENT_DIR . '/upgrade/learn_press_add_ons.cache';
+    private function _get_items_from_thimpress( $add_ons ){
+        $cache = WP_CONTENT_DIR . '/upgrade/' . md5( serialize( $add_ons ) ) . '.cache';
         $timeover = HOUR_IN_SECONDS * 24;
         if( file_exists( $cache ) && ( time() - filemtime( $cache ) ) < $timeover  ){
             $items = maybe_unserialize( file_get_contents( $cache ) );
         }else {
             $repo_url = 'http://thimpress.com/lprepo/';
-            $add_ons = array(
-                'learnpress-bbpress',
-                'learnpress-buddypress',
-                'learnpress-course-review',
-                'learnpress-import-export',
-                'learnpress-prerequisites',
-                'learnpress-wishlist'
-            );
 
             foreach ($add_ons as $slug) {
                 $item = array(
@@ -152,20 +144,31 @@ class LPR_Plugin_Install_List_Table extends WP_List_Table {
 
                 $items["$slug/$slug.php"] = (object)$item;
             }
-            file_put_contents(WP_CONTENT_DIR . '/upgrade/learn_press_add_ons.cache', serialize($items));
+            file_put_contents( $cache, serialize($items));
         }
         $this->items = $items;
     }
 
+    /**
+     * Get list of addons
+     */
     public function prepare_items() {
-
-
+        global $learn_press_add_ons;
         $this->upgrader = new LPR_Upgrader();
 
+        $page = ! empty( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
+        $tab = ! empty( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : '';
+        if( 'learn_press_add_ons' != $page ) return;
+
+        if( 'more' == $tab ){
+            $add_ons = $learn_press_add_ons['more'];
+        }elseif( 'bundle_activate' == $tab ){
+            $add_ons = $learn_press_add_ons['bundle_activate'];
+        }
         if( ! $this->test_mode ){
             $this->_get_items_from_wp();
         }else{
-            $this->_get_items_from_thimpress();
+            $this->_get_items_from_thimpress( $add_ons );
         }
     }
 
@@ -238,10 +241,6 @@ class LPR_Plugin_Install_List_Table extends WP_List_Table {
      * @param string $which
      */
     protected function display_tablenav( $which ) {
-        if ( $GLOBALS['tab'] === 'featured' ) {
-            return;
-        }
-
         if ( 'top' ==  $which ) {
             wp_referer_field();
             ?>
@@ -314,9 +313,10 @@ class LPR_Plugin_Install_List_Table extends WP_List_Table {
             'Tools'       => _x( 'Tools',       'Plugin installer group title' ),
         );
 
+        $tab = ! empty( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : '';
         $group = null;
 
-        foreach ( (array) $this->items as $plugin ) {
+        foreach ( (array) $this->items as $kk => $plugin ) {
             if ( is_object( $plugin ) ) {
                 $plugin = (array) $plugin;
             }
@@ -420,6 +420,17 @@ class LPR_Plugin_Install_List_Table extends WP_List_Table {
             $date_format = __( 'M j, Y @ H:i' );
             $last_updated_timestamp = strtotime( $plugin['last_updated'] );
             $details_link = "";
+            $message = null;
+            if( 'bundle_activate' == $tab ){
+                if( file_exists( WP_PLUGIN_DIR . '/' . $kk ) ) {
+                    if (is_plugin_active($kk)) {
+                        $message = sprintf('<span class="enabled">%s</span>', __('Enabled', 'learn_press'));
+                    } else {
+                        $message = sprintf('<span class="disabled">%s</span>', __('Disabled', 'learn_press'));
+                    }
+                }
+            }
+
             ?>
             <div class="plugin-card plugin-card-<?php echo sanitize_html_class( $plugin['slug'] ); ?>">
                 <div class="plugin-card-top">
@@ -432,6 +443,7 @@ class LPR_Plugin_Install_List_Table extends WP_List_Table {
                         if ( $action_links ) {
                             echo '<ul class="plugin-action-buttons"><li>' . implode( '</li><li>', $action_links ) . '</li></ul>';
                         }
+                        echo $message;
                         ?>
                     </div>
                     <div class="desc column-description">
