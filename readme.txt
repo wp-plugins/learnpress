@@ -14,8 +14,10 @@ LearnPress is a WordPress LMS Plugin complete solution for creating a Learning M
 
 <a href="http://thimpress.com/learnpress" target="_blank">LearnPress</a> is a comprehensive WordPress LMS Plugin for WordPress. This WordPress LMS Plugin can be used to easily create & sell courses online. Each course curriculum can be made with lessons & quizzes which can be managed with easy-to-use user interface, we really made it for lazy people.  
 
+[youtube https://www.youtube.com/watch?v=rRWPl5-Hb4k&hd=1&&cc_load_policy=1]
+
 **LearnPress LMS Plugin works with your theme**  
-We create LearnPress LMS Plugin to work with any WordPress themes.  
+We create LearnPress LMS Plugin to work with any WordPress themes.
 
 **LearnPress Support WordPress Multisites**
 
