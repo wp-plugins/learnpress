@@ -44,16 +44,16 @@ Education should be free and we want you to bring it to as many people as you ca
 **LearnPress is actively developed**  
 We are developing and improving LearnPress day by day and bringing new features to you cos we want LearnPress to become the best WordPress plugin in LMS.
 
-**Free Plugins (add-ons) for LearnPress WordPress LMS Plugin**
+**Free add-ons for LearnPress WordPress LMS Plugin:**
 
-- [Wishlist](https://wordpress.org/plugins/learnpress-wishlist) - add courses to a wishlist for students.
-- [Review](https://wordpress.org/plugins/learnpress-course-review) - review course for enrolled students.
-- [Import/Export Courses](https://wordpress.org/plugins/learnpress-import-export) - export or import course or courses out-of-box.
-- [Prerequisites Courses](https://wordpress.org/plugins/learnpress-prerequisites-courses) - require student to pass some courses in order to enroll other course.
-- [bbPress](https://wordpress.org/plugins/learnpress-bbpress) - add bbPress Forum support for LearnPress WordPress LMS Plugin.
-- [BuddyPress](https://wordpress.org/plugins/learnpress-buddypress) - add BuddyPress support for LearnPress WordPress LMS Plugin.
+- [LearnPress Wishlist](https://wordpress.org/plugins/learnpress-wishlist) - add courses to a wishlist for students.
+- [LearnPress Course Review](https://wordpress.org/plugins/learnpress-course-review) - review course for enrolled students.
+- [LearnPress Import/Export](https://wordpress.org/plugins/learnpress-import-export) - export or import course or courses out-of-box.
+- [LearnPress Prerequisites Courses](https://wordpress.org/plugins/learnpress-prerequisites-courses) - require student to pass some courses in order to enroll other course.
+- [LearnPress bbPress Integration](https://wordpress.org/plugins/learnpress-bbpress) - add bbPress Forum support for LearnPress WordPress LMS Plugin.
+- [LearnPress BuddyPress Integration](https://wordpress.org/plugins/learnpress-buddypress) - add BuddyPress support for LearnPress WordPress LMS Plugin.
 
-**Premium Plugins (add-ons) for LearnPress WordPress LMS Plugin**
+**Premium add-ons for LearnPress WordPress LMS Plugin:**
 
 - [Certificates add-on for LearnPress](http://thimpress.com/shop/certificates-add-on-for-learnpress/) - adding drag & drop certificates builder as well as selecting designed certificate for each LMS course, your student will get particular certificate when they finished a course.
 - [Co-instructors add-on for LearnPress](http://thimpress.com/shop/co-instructors-add-on-for-learnpress/) - multiple instructors support for each LMS course.
