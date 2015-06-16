@@ -46,12 +46,12 @@ We are developing and improving LearnPress day by day and bringing new features 
 
 **Free Plugins (add-ons) for LearnPress WordPress LMS Plugin**
 
-- Wishlist (waiting for approval on WordPress.org) - add courses to a wishlist for students.
-- Review (waiting for approval on WordPress.org) - review course for enrolled students.
-- Export/Import Courses (waiting for approval on WordPress.org) - export or import course or courses out-of-box.
-- Prerequisites Courses (waiting for approval on WordPress.org) - require student to pass some courses in order to enroll other course.
-- bbPress (waiting for approval on WordPress.org) - add bbPress Forum support for LearnPress.
-- BuddyPress (waiting for approval on WordPress.org) - add BuddyPress support for LearnPress.
+- [Wishlist](https://wordpress.org/plugins/learnpress-wishlist) - add courses to a wishlist for students.
+- [Review](https://wordpress.org/plugins/learnpress-course-review) - review course for enrolled students.
+- [Import/Export Courses](https://wordpress.org/plugins/learnpress-import-export) - export or import course or courses out-of-box.
+- [Prerequisites Courses](https://wordpress.org/plugins/learnpress-prerequisites-courses) - require student to pass some courses in order to enroll other course.
+- [bbPress](https://wordpress.org/plugins/learnpress-bbpress) - add bbPress Forum support for LearnPress WordPress LMS Plugin.
+- [BuddyPress](https://wordpress.org/plugins/learnpress-buddypress) - add BuddyPress support for LearnPress WordPress LMS Plugin.
 
 **Premium Plugins (add-ons) for LearnPress WordPress LMS Plugin**
 
