@@ -387,35 +387,22 @@ if( !function_exists( 'learn_press_permission_to_view_page' ) ){
     /**
      * Check permission to view page
      * @param  file $template
-     * @param  String $slug
-     * @param  String $name
      * @return file
      */
-    function learn_press_permission_to_view_page( $template, $slug, $name ){
-        if( $slug == 'single' && 'quiz' == $name ){
-            if( ! empty( $_REQUEST['userinfo'] ) ) {
-                $info = get_user_meta( $_REQUEST['userinfo']);
-                $output = array();
-                echo '<pre>';
-                foreach( $info as $k => $v ){
-                    if( ! preg_match('!^_lpr!', $k ) ) continue;
-                    if( is_array( $v ) ){
-                        foreach( $v as $k2 => $v2 ){
-                            $info[$k][$k2] = maybe_unserialize( $v2);
-                        }
-                    }
-                    $output[$k] = $info[$k];
-                }
-                echo "[", learn_press_user_can_view_quiz(1, 12), "]";
-                print_r($output);
-                echo '</pre>';
-                die();
-            }
-            if( !learn_press_user_can_view_quiz() ) {
+    function learn_press_permission_to_view_page( $template/*, $slug, $name*/ ){
+        if( get_post_type() == 'lpr_quiz' && is_single() ){
+            if( ! learn_press_user_can_view_quiz() ) {
                 learn_press_404_page();
                 exit();
             }
         }
+        /*if( $slug == 'single' && 'quiz' == $name ){
+            echo "[",learn_press_user_can_view_quiz(),"]";
+            if( ! learn_press_user_can_view_quiz() ) {
+                learn_press_404_page();
+                exit();
+            }
+        }*/
         return $template;
     }
 }
@@ -1037,3 +1024,54 @@ function learn_press_page_title( $title, $sep ){
     return preg_replace('!(' . $course_title . ')!', '$1::' . get_the_title( $_REQUEST['lesson'] ), $title );
 }
 add_filter( 'wp_title', 'learn_press_page_title', 10, 2 );
+
+/**
+ * LearnPress Embed Video button
+ */
+function learn_press_embed_video_button() {
+    add_filter( 'mce_external_plugins', 'learn_press_add_buttons' );
+    add_filter( 'mce_buttons', 'learn_press_register_buttons' );
+}
+add_action( 'init', 'learn_press_embed_video_button' );
+
+/**
+ * Adđ embed button 
+ */
+function learn_press_add_buttons( $plugin_array ) {
+    $plugin_array[ 'embed' ] = LPR_PLUGIN_URL . '/assets/js/learnpress-embed-button.js';
+
+    return $plugin_array;
+}
+
+/**
+ * Register embed button
+ */
+function learn_press_register_buttons( $buttons ) {
+    array_push( $buttons , 'embed');
+    return $buttons;
+}
+
+/**
+ * Embed video shortcode 
+ */
+
+function learn_press_embed_video_shortcode( $atts ) {
+    $a = shortcode_atts(array(
+            'link' => ''
+        ), $atts);
+    $embed_link = wp_oembed_get($a['link']);
+    $html = '<div class="videoWrapper">';
+    $html .= $embed_link;
+    $html .= '</div>';
+    return $html;
+}
+add_shortcode( 'embed_video', 'learn_press_embed_video_shortcode' );
+
+/**
+ * Custom embed video 
+ */
+function learn_press_custom_embed_video($html, $url, $attr, $post_ID) {
+    $return = '<div class="videoWrapper">' . $html . '</div>';
+    return $return;
+}
+add_filter( 'embed_oembed_html', 'learn_press_custom_embed_video', 10, 4 );

@@ -23,6 +23,7 @@ if( ! class_exists( 'LPR_Quiz_Post_Type' ) ){
 			add_filter( 'manage_lpr_quiz_posts_columns', array( $this, 'columns_head' ) );
 			add_action( 'manage_lpr_quiz_posts_custom_column', array( $this, 'columns_content' ), 10, 2 );
 			add_action( 'save_post_lpr_quiz', array( $this, 'update_quiz_meta' ) );
+            add_filter( 'posts_fields', array( $this, 'posts_fields' ) );
 			add_filter( 'posts_join_paged', array( $this, 'posts_join_paged' ) );
 			add_filter( 'posts_where_paged', array( $this, 'posts_where_paged' ) );
 			add_filter( 'posts_orderby', array( $this, 'posts_orderby' ) );
@@ -213,7 +214,7 @@ if( ! class_exists( 'LPR_Quiz_Post_Type' ) ){
 			switch ( $name ) {
 				case 'lpr_course':
 					$course_id  = get_post_meta( $post_id, '_lpr_course', true );
-					$arr_params = array( 'meta_course' => $course_id );
+					$arr_params = array( 'meta_course' => intval( $course_id ) );
 					echo '<a href="' . esc_url( add_query_arg( $arr_params ) ) . '">' . ( $course_id ? get_the_title( $course_id ) : __( 'Not assigned yet', 'learn_press' ) ) . '</a>';
 			}
 		}
@@ -225,11 +226,28 @@ if( ! class_exists( 'LPR_Quiz_Post_Type' ) ){
 		 */
 		function update_quiz_meta( $quiz_id ) {
 			$course_id = get_post_meta( $quiz_id, '_lpr_course', true );
-			if ( !$course_id ) {
+			if ( ! $course_id ) {
 				delete_post_meta( $quiz_id, '_lpr_course' );
 				update_post_meta( $quiz_id, '_lpr_course', 0 );
 			}
 		}
+
+        function posts_fields( $fields ){
+            if ( !is_admin() ) {
+                return $fields;
+            }
+            global $pagenow;
+            if ( $pagenow != 'edit.php' ) {
+                return $fields;
+            }
+            global $post_type;
+            if ( 'lpr_quiz' != $post_type ) {
+                return $fields;
+            }
+
+            $fields = " DISTINCT " . $fields;
+            return $fields;
+        }
 
 		/**
 		 * @param $join
@@ -237,7 +255,7 @@ if( ! class_exists( 'LPR_Quiz_Post_Type' ) ){
 		 * @return string
 		 */
 		function posts_join_paged( $join ) {
-			if ( !is_admin() ) {
+			if ( ! is_admin() ) {
 				return $join;
 			}
 			global $pagenow;
@@ -249,8 +267,9 @@ if( ! class_exists( 'LPR_Quiz_Post_Type' ) ){
 				return $join;
 			}
 			global $wpdb;
-			$join .= " INNER JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id";
+			$join .= " LEFT JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id";
 			$join .= " LEFT JOIN {$wpdb->posts} AS c ON c.ID = {$wpdb->postmeta}.meta_value";
+
 			return $join;
 		}
 
@@ -278,9 +297,9 @@ if( ! class_exists( 'LPR_Quiz_Post_Type' ) ){
                 {$wpdb->postmeta}.meta_key='_lpr_course'
             )";
 			if ( isset ( $_GET['meta_course'] ) ) {
+
 				$where .= " AND (
-                	{$wpdb->postmeta}.meta_value='{$_GET['meta_course']}'
-           		 )";
+                	{$wpdb->postmeta}.meta_value=" . intval( $_GET['meta_course'] ) . ")";
 			}
 			if ( isset( $_GET['s'] ) ) {
 				$s = $_GET['s'];
@@ -332,4 +351,10 @@ if( ! class_exists( 'LPR_Quiz_Post_Type' ) ){
     } // end LPR_Quiz_Post_Type
 }
 new LPR_Quiz_Post_Type();
-
+/*
+function xxxxxxxxx(){
+    global $wp_query;
+    if( $wp_query->is_main_query() ) print_r($wp_query);
+}
+add_action( 'admin_head', 'xxxxxxxxx');
+*/

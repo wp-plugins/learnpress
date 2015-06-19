@@ -383,6 +383,8 @@ if ( !class_exists( 'RWMB_Course_lesson_Quiz_Field' ) ) {
         static function remove_lesson_quiz(){
             $lesson_quiz_id = $_POST['lesson_quiz_id'];
             delete_post_meta( $lesson_quiz_id, '_lpr_course' );
+            update_post_meta( $lesson_quiz_id, '_lpr_course', 0 );
+
         }
 		static function update_section_state() {
 			$post_id = $_POST['post_id'];
@@ -418,15 +420,16 @@ if ( !class_exists( 'RWMB_Course_lesson_Quiz_Field' ) ) {
 		}
 
 		static function quick_edit_lesson_quiz_name() {
-
 			$id = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
 			echo '__LPR_JSON__';
 			if ( $id ) {
 				$name    = $_POST['name'];
+                $slug   = sanitize_title( $name );
 				$post_id = wp_update_post(
 					array(
 						'ID'         => $id,
-						'post_title' => $name
+						'post_title' => $name,
+                        'post_name'  => $slug
 					)
 				);
 				if ( $post_id ) {
@@ -469,9 +472,9 @@ if ( !class_exists( 'RWMB_Course_lesson_Quiz_Field' ) ) {
                     $query = $wpdb->prepare( "
                         DELETE FROM {$wpdb->postmeta}
                         WHERE meta_key = %s
-                        AND meta_value = %d
+                        AND ( meta_value = %d OR meta_value = %d OR meta_value = %s )
                         AND post_id IN(" . join( ',', $lesson_quiz ) . ")
-                    ", '_lpr_course', $course_id );
+                    ", '_lpr_course', $course_id, 0, '' );
 
                     $wpdb->query( $query );
 

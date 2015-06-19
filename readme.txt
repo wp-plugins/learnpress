@@ -83,18 +83,18 @@ LearnPress is a plugin to create a LMS website, to spread out course, or sell co
 
 = Where can I find LearnPress documentation and user guides? =  
 If you want to use LearnPress to build a Learning Management Website, please refer to our user guides in <a href="http://docs.thimpress.com/learnpress/" target="_blank">LearnPress official site.</a>  
-And if you want to extending or theming LearnPress, see our <a href="https://github.com/LearnPress/LearnPress/wiki">Wiki.</a>  
+And if you want to extending or theming LearnPress, see our <a href="https://github.com/LearnPress/LearnPress/wiki" target="_blank">Wiki.</a>  
 
 = Where can I get support or talk to other users? =  
-If you get troubles when using LearnPress you can ask for help on the LearnPres Support Forum
+If you get troubles when using LearnPress you can ask for help on the LearnPres Support Forum  
 
-For help with premium add-ons, use our helpdesk.
+For help with premium add-ons, use our <a href="http://thimpress.com/forums" target="_blank">helpdesk</a>.  
 
 = Where can I ask for new features or suggest ideas or themes for LearnPress? =  
 You can send us your ideas through form <a href="http://thimpress.com/learnpress-suggestion/" target="_blank">here.</a>  
 
 = Where can I report bugs or contribute to the project? =  
-You can also report bugs on LearnPress Support Forum or LearnPress <a href="https://github.com/LearnPress/LearnPress" target="_blank">Github Repository</a>.
+You can also report bugs on LearnPress Support Forum or LearnPress <a href="https://github.com/LearnPress/LearnPress" target="_blank">Github Repository</a>.  
 
 = Where can I find the REST API documentation? =  
 We will provide documentation about LearnPress REST API really soon.  
@@ -111,6 +111,19 @@ Yes, you can and we appreciate it. Join in our <a href="https://github.com/Learn
 
 == Changelog ==  
 
+= 0.9.3 =  
+- Fix menu position problem (3.14).  
+- Fix bug shortcut key @l to insert lesson link when writing a lesson.  
+- Fix bug when add Lesson/Quiz into a section but it is not assigned to the course.  
+- List the addons from wordpress.org in addons page.  
+- Add new option into settings page lets to choose the page to display form "Become a teacher".  
+- Add shortcode to insert form "Become a teacher".  
+- Update lesson/quiz title also update its slug.  
+- Align review form to center of the page.  
+- Course review pagination.  
+- Provide related courses function.  
+- Support full width embed video.  
+
 = 0.9.2 =  
 - Update add-on management page.  
 - Add auto next lesson after complete a quiz feature.  
@@ -121,11 +134,12 @@ Yes, you can and we appreciate it. Join in our <a href="https://github.com/Learn
 - Fix bug show certificate after user finished a course.  
 
 = 0.9.1 =  
-- The first beta release.
+- The first beta release.  
 
 == Upgrade Notice ==  
-- Later :)
+= 0.9.3 =  
+In this version, we have changed a little bit about LearnPress Plugin directory structure and moved all add-ons to become independence plugins. If you face any problems relate to add-ons, please completely remove old version and re-install LearnPress. It does not affect your current data. Remember to enable add-ons after installing. Thank you.  
 
 == Other note ==  
 <a href="http://docs.thimpress.com/learnpress" target="_blank">Documentation</a> is available in ThimPress site.  
-<a href="https://github.com/LearnPress/LearnPress/">LearnPress github repo.</a>
+<a href="https://github.com/LearnPress/LearnPress/" target="_blank">LearnPress github repo.</a>  

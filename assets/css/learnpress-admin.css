@@ -234,7 +234,7 @@ li.quiz, li.lesson, li.quick_lesson, li.quick_quiz {
     min-height: 180px;
 }
 .learn-press-add-ons .button.spinner{
-    background: url(../../../../wp-admin/images/spinner.gif) no-repeat 4px !important;
+    background: url(../../assets/images/spinner.gif) no-repeat 4px !important;
     padding-left: 30px;
     visibility: visible;
     width: auto;
@@ -249,6 +249,9 @@ li.quiz, li.lesson, li.quick_lesson, li.quick_quiz {
 }
 .learn-press-add-ons .action-links > span.disabled{
     color: #FF0000;
+}
+#learn-press-bundle-activate-add-ons.spinner{
+    float: left !important;
 }
 #learn-press-add-on-state-changed-message{
     position: fixed;
