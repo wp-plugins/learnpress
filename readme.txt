@@ -63,7 +63,7 @@ We are developing and improving LearnPress day by day and bringing new features 
 - [Stripe Payment method for LearnPress](http://thimpress.com/shop/stripe-add-on-for-learnpress/) - Stripe payment method for LearnPress WordPress LMS Plugin.
 - [WooCommerce add-on for LearnPress](http://thimpress.com/shop/woocommerce-add-on-for-learnpress/) - using WooCommerce as payment gateway for LearnPrss WordPress LMS Plugin.
 
-**WordPress LMS Plugin - LearnPress ROADMAP**
+**WordPress LMS Plugin - LearnPress ROADMAP:**
 
 - Payment Method support (first priority)
 	- Authorize.net
