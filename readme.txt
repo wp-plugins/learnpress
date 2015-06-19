@@ -63,6 +63,41 @@ We are developing and improving LearnPress day by day and bringing new features 
 - [Stripe Payment method for LearnPress](http://thimpress.com/shop/stripe-add-on-for-learnpress/) - Stripe payment method for LearnPress WordPress LMS Plugin.
 - [WooCommerce add-on for LearnPress](http://thimpress.com/shop/woocommerce-add-on-for-learnpress/) - using WooCommerce as payment gateway for LearnPrss WordPress LMS Plugin.
 
+**WordPress LMS Plugin - LearnPress ROADMAP**
+
+- Payment Method support (first priority)
+	- Authorize.net
+	- Google Checkout
+	- Amazon Payments
+	- Dwolla
+	- Braintree
+	- Samurai by FeeFighters
+	- WePay
+	- 2Checkout
+- Assignment
+- Gradebook
+- Paid MemberShip Pro
+- Events
+- myCRED integration
+- Share Grade
+- BadgeOS
+- Content Drip
+- Manually reset quiz for retake
+- Create quiz from randoms questions in question bank
+- Attachment restriction for lesson
+- Mathjax support
+- Presentation support (maybe support SlideShare)
+- Show enrolled user
+- Student ranks
+- REST API for mobile app
+- No distraction mode (when doing quiz)
+- Report/feedback about a question/quiz/lesson
+- Commission for payment method
+- Instructor's note
+- Private message from Admin to teacher
+- Group payment
+- Announcement (come up with email)
+
 Any suggestions for this WordPress LMS Plugin? Send us <a href="http://thimpress.com/learnpress-suggestion/" target="_blank">here.</a>
 
 == Installation ==
