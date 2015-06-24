@@ -18,9 +18,8 @@ LearnPress WordPress LMS Plugin is **lightweight** but **super powerful** with *
 
 [youtube https://www.youtube.com/watch?v=rRWPl5-Hb4k&hd=1&&cc_load_policy=1]
 
-##WordPress LMS Plugin - LearnPress features##
+###WordPress LMS Plugin - LearnPress features###
 
-- ****
 - **LearnPress LMS Plugin works with your theme** - We create LearnPress LMS Plugin to work with any WordPress themes. Here is a premium [LMS WordPress Theme](http://themeforest.net/item/lms-wordpress-theme-elearning-wp/11797847) we designed to work with LearnPress, more will comes soon.
 - **LearnPress Support WordPress Multisite** - LearnPress WordPress LMS Plugin works well on both WordPress & WordPress Multisite.
 - **Create unlimited courses** - LearnPress LMS Plugin provide an excellent user interface to create a course with options you need. You can find it easy to make a full curriculum layout as well as edit and maintain it. You can also export course and import to other website which also using LearnPress. We will provide the feature allow you to import course from other WordPress LMS plugins soon.
@@ -163,4 +162,4 @@ In this version, we have changed a little bit about LearnPress Plugin directory 
 
 == Other note ==  
 <a href="http://docs.thimpress.com/learnpress" target="_blank">Documentation</a> is available in ThimPress site.  
-<a href="https://github.com/LearnPress/LearnPress/" target="_blank">LearnPress github repo.</a>  
+<a href="https://github.com/LearnPress/LearnPress/" target="_blank">LearnPress github repo.</a>
