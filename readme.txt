@@ -18,7 +18,7 @@ LearnPress WordPress LMS Plugin is **lightweight** but **super powerful** with *
 
 [youtube https://www.youtube.com/watch?v=rRWPl5-Hb4k&hd=1&&cc_load_policy=1]
 
-###WordPress LMS Plugin - LearnPress features###
+###WordPress LMS Plugin - LearnPress features:###
 
 - **LearnPress LMS Plugin works with your theme** - We create LearnPress LMS Plugin to work with any WordPress themes. Here is a premium [LMS WordPress Theme](http://themeforest.net/item/lms-wordpress-theme-elearning-wp/11797847) we designed to work with LearnPress, more will comes soon.
 - **LearnPress Support WordPress Multisite** - LearnPress WordPress LMS Plugin works well on both WordPress & WordPress Multisite.
@@ -31,7 +31,7 @@ LearnPress WordPress LMS Plugin is **lightweight** but **super powerful** with *
 
 <a href="http://docs.thimpress.com/learnpress" target="_blank">LearnPress WordPress LMS Plugin Documentation</a>
 
-**Free add-ons for LearnPress WordPress LMS Plugin:**
+###Free add-ons for LearnPress WordPress LMS Plugin:###
 
 - [LearnPress Wishlist](https://wordpress.org/plugins/learnpress-wishlist) - add courses to a wishlist for students.
 - [LearnPress Course Review](https://wordpress.org/plugins/learnpress-course-review) - review course for enrolled students.
@@ -40,7 +40,7 @@ LearnPress WordPress LMS Plugin is **lightweight** but **super powerful** with *
 - [LearnPress bbPress Integration](https://wordpress.org/plugins/learnpress-bbpress) - add bbPress Forum support for LearnPress WordPress LMS Plugin.
 - [LearnPress BuddyPress Integration](https://wordpress.org/plugins/learnpress-buddypress) - add BuddyPress support for LearnPress WordPress LMS Plugin.
 
-**Premium add-ons for LearnPress WordPress LMS Plugin:**
+###Premium add-ons for LearnPress WordPress LMS Plugin:###
 
 - [Certificates add-on for LearnPress](http://thimpress.com/shop/certificates-add-on-for-learnpress/) - adding drag & drop certificates builder as well as selecting designed certificate for each LMS course, your student will get particular certificate when they finished a course.
 - [Co-instructors add-on for LearnPress](http://thimpress.com/shop/co-instructors-add-on-for-learnpress/) - multiple instructors support for each LMS course.
@@ -48,7 +48,7 @@ LearnPress WordPress LMS Plugin is **lightweight** but **super powerful** with *
 - [Stripe Payment method for LearnPress](http://thimpress.com/shop/stripe-add-on-for-learnpress/) - Stripe payment method for LearnPress WordPress LMS Plugin.
 - [WooCommerce add-on for LearnPress](http://thimpress.com/shop/woocommerce-add-on-for-learnpress/) - using WooCommerce as payment gateway for LearnPress WordPress LMS Plugin.
 
-**WordPress LMS Plugin - LearnPress ROADMAP:**
+###WordPress LMS Plugin - LearnPress ROADMAP:###
 
 - Payment Method support (first priority)
 	- Authorize.net
