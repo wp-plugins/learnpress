@@ -14,13 +14,15 @@ LearnPress is a WordPress LMS Plugin complete solution for creating a Learning M
 
 <a href="http://thimpress.com/learnpress" target="_blank">LearnPress</a> is a comprehensive **WordPress LMS Plugin**. This WordPress LMS Plugin uses to easily create & sell courses online. Each course curriculum can be made with lessons & quizzes which can be managed with easy-to-use user interface, we really made it for lazy people.
 
-LearnPress WordPress LMS Plugin is **lightweight** but **super powerful** with **lots of add-ons** to empower its core system.
+LearnPress is free and always be free, but it has premium high quality WordPress Plugin, try and see how it is. LearnPress WordPress LMS Plugin is **lightweight** but **super powerful** with **lots of add-ons** to empower its core system.
+
+Take a look at a [Premium LMS WordPress Theme](http://themeforest.net/item/lms-wordpress-theme-elearning-wp/11797847) we designed to work with LearnPress, more will comes soon.
 
 [youtube https://www.youtube.com/watch?v=rRWPl5-Hb4k&hd=1&&cc_load_policy=1]
 
 ###WordPress LMS Plugin - LearnPress features:###
 
-- **LearnPress LMS Plugin works with your theme** - We create LearnPress LMS Plugin to work with any WordPress themes. Here is a premium [LMS WordPress Theme](http://themeforest.net/item/lms-wordpress-theme-elearning-wp/11797847) we designed to work with LearnPress, more will comes soon.
+- **LearnPress LMS Plugin works with your theme** - We create LearnPress LMS Plugin to work with any WordPress themes.
 - **LearnPress Support WordPress Multisite** - LearnPress WordPress LMS Plugin works well on both WordPress & WordPress Multisite.
 - **Create unlimited courses** - LearnPress LMS Plugin provide an excellent user interface to create a course with options you need. You can find it easy to make a full curriculum layout as well as edit and maintain it. You can also export course and import to other website which also using LearnPress. We will provide the feature allow you to import course from other WordPress LMS plugins soon.
 - **Manage courses** - With the course you've created, you can share it, manage it, watch statistic about number of student, its trend, etc.
