@@ -151,9 +151,7 @@ Yes, you can and we appreciate it. Join in our <a href="https://github.com/Learn
 == Changelog ==  
 
 = 0.9.4 =  
-- Set up sample data for LearnPress  
-- Updated reject pending course flow  
-- Updated question type  
+- Set up sample data for LearnPress    
 - Provided sorting question type (you can find it in premium add-on list)  
 - Provided fill in blank question type (we are uploading it to WordPress.org so if you cannot find it, wait for it to be available soon)  
 - Fixed bug profile template  
