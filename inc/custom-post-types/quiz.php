@@ -20,6 +20,7 @@ if( ! class_exists( 'LPR_Quiz_Post_Type' ) ){
 
             add_action( 'init', array( $this, 'register_post_type' ) );
             add_action( 'admin_init', array( $this, 'add_meta_boxes' ), 0 );
+            add_action( 'admin_head', array( $this, 'enqueue_script' ) );
 			add_filter( 'manage_lpr_quiz_posts_columns', array( $this, 'columns_head' ) );
 			add_action( 'manage_lpr_quiz_posts_custom_column', array( $this, 'columns_content' ), 10, 2 );
 			add_action( 'save_post_lpr_quiz', array( $this, 'update_quiz_meta' ) );
@@ -135,16 +136,24 @@ if( ! class_exists( 'LPR_Quiz_Post_Type' ) ){
             ?>
             <script>
                 var form = $('#post');
+
                 form.submit(function(evt){
                     var $title = $('#title'),
                         is_error = false;
+                    window.learn_press_before_update_quiz_message = [];
                     if( 0 == $title.val().length ){
-                        alert( '<?php _e( 'Please enter the title of the quiz', 'learn_press' );?>' );
+                        window.learn_press_before_update_quiz_message.push( '<?php _e( 'Please enter the title of the quiz', 'learn_press' );?>' );
                         $title.focus();
                         is_error = true;
                     }
 
-                    if( true == is_error ){
+                    /* hook */
+                    is_error = form.triggerHandler( 'learn_press_question_before_update' ) === false;
+
+                    if( window.learn_press_before_update_quiz_message.length /*true == is_error*/ ){
+                        if( window.learn_press_before_update_quiz_message.length ){
+                            alert( "Error: \n" + window.learn_press_before_update_quiz_message.join( "\n\n" ) )
+                        }
                         evt.preventDefault();
                         return false;
                     }
@@ -351,10 +360,3 @@ if( ! class_exists( 'LPR_Quiz_Post_Type' ) ){
     } // end LPR_Quiz_Post_Type
 }
 new LPR_Quiz_Post_Type();
-/*
-function xxxxxxxxx(){
-    global $wp_query;
-    if( $wp_query->is_main_query() ) print_r($wp_query);
-}
-add_action( 'admin_head', 'xxxxxxxxx');
-*/

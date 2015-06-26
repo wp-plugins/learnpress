@@ -1,5 +1,7 @@
 <?php
 /**
+ * @file
+ *  
  * LearnPress Core Functions
  *
  * Common functions for both front-end and back-end
@@ -427,8 +429,8 @@ function learn_press_registration_save( $user_id ) {
 }
 
 // remove author metabox from teachers in editor screen.
-add_action( 'admin_head-post-new.php', 'learn_press_remove_author_box' );
-add_action( 'admin_head-post.php', 'learn_press_remove_author_box' );
+// add_action( 'admin_head-post-new.php', 'learn_press_remove_author_box' );
+// add_action( 'admin_head-post.php', 'learn_press_remove_author_box' );
 function learn_press_remove_author_box() {
 	if ( current_user_can( 'lpr_teacher' ) ) {
 		remove_meta_box( 'authordiv', 'lpr_course', 'normal' );
@@ -490,11 +492,13 @@ function learn_press_get_current_profile_link() {
  * Get LeanrPress profile permalink
  */
 if ( learn_press_has_profile_method() ) {
-	add_filter( 'learn_press_instructor_profile_link', 'learn_press_get_profile_link', 10, 2 );
+	add_filter( 'learn_press_instructor_profile_link', 'learn_press_get_profile_link', 10, 3 );
 }
-function learn_press_get_profile_link( $link, $course_id ) {
-	$course     = get_post( $course_id );
-	$user_id    = $course->post_author;
+function learn_press_get_profile_link( $link, $user_id, $course_id ) {
+	if ( is_null( $user_id ) ) {
+		$course  = get_post( $course_id );
+		$user_id = $course->post_author;
+	}
 	$user_login = get_the_author_meta( 'user_login', $user_id );
 	$link       = home_url( "/profile/$user_login" );
 
@@ -1589,7 +1593,7 @@ function become_a_teacher_handler() {
 	global $current_user;
 	get_currentuserinfo();
 
-	$email           = 'tunnhn@gmail.com';//array( get_option( 'admin_email' ) );
+	$to_email           = array( get_option( 'admin_email' ) );
 	$message_headers = '';
 	$subject         = 'Please moderate';
 	$notify_message  = sprintf( __( 'The user <a href="%s">%s</a> want to be a teacher.' ), admin_url( 'user-edit.php?user_id=' . $current_user->ID ), $current_user->data->user_login ) . "\r\n";
@@ -1600,7 +1604,7 @@ function become_a_teacher_handler() {
 	$notify_message .= wp_specialchars_decode( sprintf( __( 'Accept: %s' ), admin_url( 'user-edit.php?user_id=' . $current_user->ID ) . '&action=accept-to-be-teacher' ) ) . "\r\n";
 
 	$args = array(
-		$email,
+        $to_email,
 		( $subject ),
 		$notify_message,
 		$message_headers

@@ -2,6 +2,8 @@
 /**
  * LearnPress Course Functions
  *
+ * @file
+ * 
  * Common functions to manipulate with course, lesson, quiz, questions, etc...
  * Author foobla
  * Created Mar 18 2015
@@ -13,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Get number of lesson in one course
- *
+ * 
  * @param $course_id
  *
  * @return int
@@ -666,24 +668,27 @@ function learn_press_get_quiz_result( $user_id = null, $quiz_id = null ) {
 			if ( $ques_object && isset( $answers[$question_id] ) ) {
 				$check = $ques_object->check( array( 'answer' => $answers[$question_id] ) );
 				if ( $check['correct'] ) {
-					$mark += $check['mark'];
+                    //$mark += $check['mark'];
 					$correct_questions ++;
 				} else {
 					$wrong_questions ++;
 				}
-
+                $mark += isset( $check['mark'] ) ? $check['mark'] : 0;
 			} else {
 				$empty_questions ++;
 			}
 		}
 		$question_count = count( $questions );
+        if( is_float( $mark ) ){
+            $mark = round( $mark, 1 );
+        }
 		$info           = array(
 			'mark'            => $mark,
 			'correct'         => $correct_questions,
 			'wrong'           => $wrong_questions,
 			'empty'           => $empty_questions,
 			'questions_count' => $question_count,
-			'mark_total'      => $mark_total,
+			'mark_total'      => round( $mark_total, 2 ),
 			'mark_percent'    => round( $mark / $mark_total, 2 ),
 			'correct_percent' => round( $correct_questions / $question_count * 100, 2 ),
 			'wrong_percent'   => round( $wrong_questions / $question_count * 100, 2 ),
