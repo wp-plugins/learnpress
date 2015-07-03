@@ -150,6 +150,17 @@ Yes, you can and we appreciate it. Join in our <a href="https://github.com/Learn
 
 == Changelog ==  
 
+= 0.9.5 =
+- Added showing question answer and explaination feature
+- Fixed bugs for addon Fill In Blank question 
+- Fixed bugs for addon Sorting Choice question
+- Fixed bugs for addon Certificates
+- Fixed bugs for addon WooCommerce Payment
+- Prevent access to lesson directly by using permalink
+- Random quiz questions addon (premium add-on)
+- Content Drip addon (premium add-on)
+- Support multi language
+
 = 0.9.4 =  
 - Set up sample data for LearnPress    
 - Provided sorting question type (you can find it in premium add-on list)  

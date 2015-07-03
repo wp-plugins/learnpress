@@ -724,7 +724,15 @@ function learn_press_edit_permalink() {
 		if ( empty( $wp_rewrite->permalink_structure ) ) {
 			echo '<div class="fade error"><p>';
 			echo sprintf(
-				__( '<strong>LearnPress Profile is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'learn_press' ),
+				wp_kses(
+					__( '<strong>LearnPress Profile is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'learn_press' ),
+					array(
+						'a' => array(
+							'href' => array()
+						),
+						'strong' => array()
+					)
+				),
 				admin_url( 'options-permalink.php' )
 			);
 			echo '</p></div>';
@@ -1505,7 +1513,7 @@ function learn_press_course_lesson_permalink_friendly( $permalink, $lesson_id, $
 
 	if ( '' != get_option( 'permalink_structure' ) ) {
 		if ( preg_match( '!\?lesson=([^\?\&]*)!', $permalink, $matches ) ) {
-			$permalink = preg_replace( '!\?lesson=([^\?\&]*)!', basename( get_permalink( $matches[1] ) ), $permalink );
+			$permalink = preg_replace( '!/?\?lesson=([^\?\&]*)!', '/' . basename( get_permalink( $matches[1] ) ), untrailingslashit( $permalink ) );
 		}
 	}
 
