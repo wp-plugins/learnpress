@@ -16,7 +16,7 @@ LearnPress is a WordPress LMS Plugin complete solution for creating a Learning M
 
 LearnPress is free and always be free, but it has premium high quality WordPress Plugin, try and see how it is. LearnPress WordPress LMS Plugin is **lightweight** but **super powerful** with **lots of add-ons** to empower its core system.  
 
-Take a look at a [Premium LMS WordPress Theme](http://themeforest.net/item/lms-wordpress-theme-elearning-wp/11797847) we designed to work with LearnPress, more will comes soon.
+Take a look at a Premium **[LMS WordPress Theme](http://themeforest.net/item/lms-wordpress-theme-elearning-wp/11797847)** we designed to work with LearnPress, more will comes soon.
 
 [youtube https://www.youtube.com/watch?v=rRWPl5-Hb4k&hd=1&&cc_load_policy=1]
 
