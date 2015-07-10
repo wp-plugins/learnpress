@@ -141,6 +141,9 @@ We will provide documentation about LearnPress REST API really soon.
 = LearnPress is great, can I contribute to it? =  
 Yes, you can and we appreciate it. Join in our <a href="https://github.com/LearnPress/LearnPress" target="_blank">Github Repository</a>.  
 
+**LearnPress Translation project**  
+https://www.transifex.com/projects/p/learnpress/  
+
 == Screenshots ==  
 
 1. LearnPress Create Course Layout.  
@@ -149,6 +152,16 @@ Yes, you can and we appreciate it. Join in our <a href="https://github.com/Learn
 4. LearnPress Courses Statistics.  
 
 == Changelog ==  
+
+== 0.9.6 ==  
+- Fix translation textdomain error - Thank polischmen for your concern.
+- Updated question hint
+- Option to set course is public or enrolled require  
+- Certificates add-on:  
+ - Add more fonts  
+ - Option to display the full name with {firstname}=User first name and {lastname}=User last name  
+ - Option to format date  
+ - Created a sample Certificate when plugin is activated 
 
 = 0.9.5 =
 - Added showing question answer and explaination feature
