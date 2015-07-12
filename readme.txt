@@ -154,35 +154,35 @@ https://www.transifex.com/projects/p/learnpress/
 == Changelog ==  
 
 = 0.9.7 =
-- Fix wrong query of quizzes result in Profile
+- Fixed wrong query of quizzes result in Profile.
 
 = 0.9.6 =
-- Fix translation textdomain error - Thank polischmen for your concern.
-- Updated question hint
-- Option to set course is public or enrolled require  
+- Fixed translation textdomain error - Thank polischmen for your concern.
+- Updated question hint.
+- Option to set course is public or enrolled require.
 - Certificates add-on:  
- - Add more fonts  
- - Option to display the full name with {firstname}=User first name and {lastname}=User last name  
- - Option to format date  
- - Created a sample Certificate when plugin is activated 
+ - Add more fonts.
+ - Option to display the full name with {firstname}=User first name and {lastname}=User last name.
+ - Option to format date.
+ - Created a sample Certificate when plugin is activated.
 
 = 0.9.5 =
-- Added showing question answer and explaination feature
-- Fixed bugs for addon Fill In Blank question 
-- Fixed bugs for addon Sorting Choice question
-- Fixed bugs for addon Certificates
-- Fixed bugs for addon WooCommerce Payment
-- Prevent access to lesson directly by using permalink
-- Random quiz questions addon (premium add-on)
-- Content Drip addon (premium add-on)
-- Support multi language
+- Added showing question answer and explaination feature.
+- Fixed bugs for addon Fill In Blank question.
+- Fixed bugs for addon Sorting Choice question.
+- Fixed bugs for addon Certificates.
+- Fixed bugs for addon WooCommerce Payment.
+- Prevent access to lesson directly by using permalink.
+- Random quiz questions addon (premium add-on).
+- Content Drip addon (premium add-on).
+- Support multi language.
 
 = 0.9.4 =  
-- Set up sample data for LearnPress    
-- Provided sorting question type (you can find it in premium add-on list)  
-- Provided fill in blank question type (we are uploading it to WordPress.org so if you cannot find it, wait for it to be available soon)  
-- Fixed bug profile template  
-- Updated LearnPress profile method  
+- Set up sample data for LearnPress.
+- Provided sorting question type (you can find it in premium add-on list).
+- Provided fill in blank question type (we are uploading it to WordPress.org so if you cannot find it, wait for it to be available soon).
+- Fixed bug profile template.
+- Updated LearnPress profile method.
 
 = 0.9.3 =  
 - Fixed menu position problem (3.14).  
