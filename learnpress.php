@@ -23,7 +23,7 @@ if ( !class_exists( 'LearnPress' ) ) {
          * Current version of the plugin
 		 * @var string
 		 */
-		public $version = '0.9.6';
+		public $version = '0.9.7';
 
 		/**
          * The single instance of the class

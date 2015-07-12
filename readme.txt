@@ -153,6 +153,9 @@ https://www.transifex.com/projects/p/learnpress/
 
 == Changelog ==  
 
+= 0.9.7 =
+- Fix wrong query of quizzes result in Profile
+
 = 0.9.6 =
 - Fix translation textdomain error - Thank polischmen for your concern.
 - Updated question hint
