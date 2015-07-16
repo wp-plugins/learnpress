@@ -8,7 +8,7 @@ Stable tag: trunk
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
-LearnPress is a *WordPress LMS Plugin* complete solution for creating a WordPress Learning Management System. LearnPress is for creating course, lesson and quiz.
+LearnPress is a WordPress LMS Plugin complete solution for creating a WordPress Learning Management System. LearnPress is for creating course, lesson and quiz.
 
 == Description ==  
 
