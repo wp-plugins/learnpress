@@ -50,9 +50,23 @@ if ( !class_exists( 'LPR_Course_Post_Type' ) ) {
 				'not_found_in_trash' => __( 'No course found in Trash', 'learn_press' ),
 			);
 
+            $args = array(
+                'public'             => true,
+                'publicly_queryable' => true,
+                'show_ui'            => true,
+                'show_in_menu'       => true,
+                'query_var'          => true,
+                'rewrite'            => array( 'slug' => 'book' ),
+                'capability_type'    => 'post',
+                'has_archive'        => true,
+                'hierarchical'       => false,
+                'menu_position'      => null,
+                'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
+            );
 			$args = array(
 				'labels'             => $labels,
 				'public'             => true,
+                'query_var'          => true,
 				'publicly_queryable' => true,
 				'show_ui'            => true,
 				'has_archive'        => ( $page_id = learn_press_get_page_id( 'courses' ) ) && get_post( $page_id ) ? get_page_uri( $page_id ) : 'courses',
@@ -66,8 +80,10 @@ if ( !class_exists( 'LPR_Course_Post_Type' ) ) {
 				'hierarchical'       => true,
 				'rewrite'            => array( 'slug' => 'courses', 'hierarchical' => true, 'with_front' => false )
 			);
+            //print_r($args);
 			register_post_type( LPR_COURSE_CPT, $args );
-
+            flush_rewrite_rules();
+            //return;
 
 			register_taxonomy( 'course_category', array( LPR_COURSE_CPT ),
 				array(

@@ -975,7 +975,6 @@ function learn_press_pre_get_post( $q ) {
 
 	if ( $q->is_page() && ( $q->get( 'page_id' ) == ( $page_id = learn_press_get_page_id( 'courses' ) ) && $page_id ) ) {
 
-
 		$q->set( 'post_type', 'lpr_course' );
 		$q->set( 'page_id', '' );
 		if ( isset( $q->query['paged'] ) ) {

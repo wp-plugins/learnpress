@@ -156,6 +156,10 @@ https://www.transifex.com/projects/p/learnpress/
 
 == Changelog ==  
 
+= 0.9.9 =
+- Fixed bug: Course price always showing "FREE" on category page
+- Update language Polish
+
 = 0.9.8 =  
 - Fixed wrong placeholder in email settings.  
 - Updated addon Certificates for GUI and functions with more options  
