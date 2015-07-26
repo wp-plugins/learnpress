@@ -157,12 +157,12 @@ https://www.transifex.com/projects/p/learnpress/
 == Changelog ==
 
 = 0.9.10 =
-- Fixed bug: Template loader missing header and footer.
-- Updated default language file.
+- Fixed bug: Template loader missing header and footer
+- Updated default language file
 
 = 0.9.9 =
-- Fixed bug: Course price always showing "FREE" on category page.
-- Updated language Polish.
+- Fixed bug: Course price always showing "FREE" on category page
+- Updated language Polish
 
 = 0.9.8 =  
 - Fixed wrong placeholder in email settings.  
