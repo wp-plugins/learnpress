@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-25 15:12+0700\n"
+"POT-Creation-Date: 2015-08-01 14:10+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,7 +164,7 @@ msgstr ""
 msgid "Your phone number"
 msgstr ""
 
-#: inc/class.lpr-shortcodes.php:151 inc/shortcodes/profile-page.php:21
+#: inc/class.lpr-shortcodes.php:152 inc/shortcodes/profile-page.php:21
 msgid "This user in not available!"
 msgstr ""
 
@@ -496,16 +496,32 @@ msgstr ""
 msgid "Sorry! You can not enroll to this course"
 msgstr ""
 
-#: inc/lpr-course-functions.php:2095
+#: inc/lpr-course-functions.php:2100
 msgid "Be sure you want to retake this course! All your data will be deleted."
 msgstr ""
 
-#: inc/lpr-course-functions.php:2096
+#: inc/lpr-course-functions.php:2101
 msgid "Be sure you want to retake this quiz! All your data will be deleted."
 msgstr ""
 
-#: inc/lpr-course-functions.php:2097
+#: inc/lpr-course-functions.php:2102
 msgid "Are you sure you want to finish this quiz?"
+msgstr ""
+
+#: inc/lpr-course-functions.php:2103
+msgid "Are you sure you want to mark this lesson as completed?"
+msgstr ""
+
+#: inc/lpr-course-functions.php:2104
+msgid "Are you sure you want to finish this course?"
+msgstr ""
+
+#: inc/lpr-course-functions.php:2105
+msgid "Please select a payment method"
+msgstr ""
+
+#: inc/lpr-course-functions.php:2106
+msgid "You are an instructor now"
 msgstr ""
 
 #: inc/lpr-deprecated-functions.php:9
@@ -1667,102 +1683,101 @@ msgstr ""
 #: inc/custom-post-types/course.php:227
 msgid ""
 "If Final Quiz option is checked, then the course will be assessed by result "
-"of the last quiz, else the course\n"
-"                                      will be assessed by the progress of "
+"of the last quiz, else the course will be assessed by the progress of "
 "learning lessons"
 msgstr ""
 
-#: inc/custom-post-types/course.php:230
+#: inc/custom-post-types/course.php:229
 msgid "No Final Quiz"
 msgstr ""
 
-#: inc/custom-post-types/course.php:231
+#: inc/custom-post-types/course.php:230
 msgid "Using Final Quiz"
 msgstr ""
 
-#: inc/custom-post-types/course.php:236
+#: inc/custom-post-types/course.php:235
 msgid "Passing Condition"
 msgstr ""
 
-#: inc/custom-post-types/course.php:241
+#: inc/custom-post-types/course.php:240
 msgid "The percentage of quiz result to finish the course"
 msgstr ""
 
-#: inc/custom-post-types/course.php:255
+#: inc/custom-post-types/course.php:254
 msgid "Course Payment Settings"
 msgstr ""
 
-#: inc/custom-post-types/course.php:260
+#: inc/custom-post-types/course.php:259
 msgid "Enrolled Require"
 msgstr ""
 
-#: inc/custom-post-types/course.php:263
+#: inc/custom-post-types/course.php:262
 msgid "Require users logged in to study or public to all"
 msgstr ""
 
-#: inc/custom-post-types/course.php:265
+#: inc/custom-post-types/course.php:264
 msgid "Yes, enroll is required"
 msgstr ""
 
-#: inc/custom-post-types/course.php:266 inc/custom-post-types/lesson.php:117
+#: inc/custom-post-types/course.php:265 inc/custom-post-types/lesson.php:117
 msgid "No"
 msgstr ""
 
-#: inc/custom-post-types/course.php:272
+#: inc/custom-post-types/course.php:271
 msgid "Course Payment"
 msgstr ""
 
-#: inc/custom-post-types/course.php:275
+#: inc/custom-post-types/course.php:274
 msgid ""
 "If Paid be checked, An administrator will review then set course price and "
 "commission"
 msgstr ""
 
-#: inc/custom-post-types/course.php:277 inc/order/lpr-order-functions.php:352
+#: inc/custom-post-types/course.php:276 inc/order/lpr-order-functions.php:352
 msgid "Free"
 msgstr ""
 
-#: inc/custom-post-types/course.php:278
+#: inc/custom-post-types/course.php:277
 msgid "Paid"
 msgstr ""
 
-#: inc/custom-post-types/course.php:287
+#: inc/custom-post-types/course.php:286
 msgid "If free, this field is empty or set 0. (Only admin can edit this field)"
 msgstr ""
 
-#: inc/custom-post-types/course.php:296
+#: inc/custom-post-types/course.php:295
 msgid "This course is enrolled require and the suggestion price is "
 msgstr ""
 
-#: inc/custom-post-types/course.php:300
+#: inc/custom-post-types/course.php:299
 msgid "This course is free."
 msgstr ""
 
-#: inc/custom-post-types/course.php:306
+#: inc/custom-post-types/course.php:305
 msgid "Course Price"
 msgstr ""
 
-#: inc/custom-post-types/course.php:320
+#: inc/custom-post-types/course.php:319
 msgid "Course Suggestion Price"
 msgstr ""
 
-#: inc/custom-post-types/course.php:325
+#: inc/custom-post-types/course.php:324
 msgid "The course price you want to suggest for admin to set."
 msgstr ""
 
-#: inc/custom-post-types/course.php:356
+#: inc/custom-post-types/course.php:355
 msgid "Please enter the title of the course"
 msgstr ""
 
-#: inc/custom-post-types/course.php:360
+#: inc/custom-post-types/course.php:359
 msgid "Please add at least one section for the course"
 msgstr ""
 
-#: inc/custom-post-types/course.php:367
+#: inc/custom-post-types/course.php:366
 msgid "Please enter the title of the section"
 msgstr ""
 
-#: inc/custom-post-types/course.php:375
+#: inc/custom-post-types/course.php:374
 msgid "Please set a price for this course"
 msgstr ""
 

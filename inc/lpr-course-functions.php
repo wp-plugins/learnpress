@@ -1211,7 +1211,12 @@ function learn_press_get_course_id( $course_id = null ) {
  */
 function learn_press_count_students_enrolled( $course_id = null ) {
 	$course_id = learn_press_get_course_id( $course_id );
-	$count = ( $users = get_post_meta( $course_id, '_lpr_course_user', true ) ) ? sizeof( $users ) : 0;
+	$student = get_post_meta( $course_id, '_lpr_course_student', true );
+	if( $student ) {
+		$count = $student;
+	} else {
+		$count = ( $users = get_post_meta( $course_id, '_lpr_course_user', true ) ) ? sizeof( $users ) : 0;
+	}	
 	return apply_filters( 'learn_press_count_student_enrolled_course', $count, $course_id );
 }
 
@@ -2094,7 +2099,11 @@ function learn_press_frontent_script() {
 	$translate = array(
 		'confirm_retake_course' => __( 'Be sure you want to retake this course! All your data will be deleted.', 'learn_press' ),
 		'confirm_retake_quiz'   => __( 'Be sure you want to retake this quiz! All your data will be deleted.', 'learn_press' ),
-		'confirm_finish_quiz'   => __( 'Are you sure you want to finish this quiz?', 'learn_press' )
+		'confirm_finish_quiz'   => __( 'Are you sure you want to finish this quiz?', 'learn_press' ),
+        'confirm_complete_lesson'   => __( 'Are you sure you want to mark this lesson as completed?', 'learn_press' ),
+        'confirm_finish_course'     => __( 'Are you sure you want to finish this course?', 'learn_press' ),
+        'no_payment_method'         => __( 'Please select a payment method', 'learn_press' ),
+        'you_are_instructor_now'    => __( 'You are an instructor now', 'learn_press' )
 	);
 	LPR_Assets::add_localize( $translate );
 }

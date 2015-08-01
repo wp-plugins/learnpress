@@ -65,7 +65,7 @@ if( typeof LearnPress == 'undefined' ) window.LearnPress = {};
             });
         },
         finish_course: function (course_id) {
-            if (!confirm('Are you sure you want to finish this course?')) return;
+            if (!confirm(confirm_finish_course.confirm_finish_course)) return;
             $.ajax({
                 type: "POST",
                 url: ajaxurl,
@@ -131,7 +131,7 @@ if( typeof LearnPress == 'undefined' ) window.LearnPress = {};
 
     function complete_lesson( event ){
         event.preventDefault();
-        if( ! confirm( 'Are you sure you want to mark this lesson as completed?') ) return;
+        if( ! confirm( learn_press_js_localize.confirm_complete_lesson ) ) return;
         var lesson = $(this).data('id');
         LearnPress.complete_lesson( lesson );
     }
@@ -547,7 +547,7 @@ jQuery(document).ready(function ($) {
             }else{
                 if( $payment_form.is(':visible') ){
                     if( !payment ){
-                        alert('Please select a payment method');
+                        alert( learn_press_js_localize.no_payment_method );
                         return;
                     }else{
                         take = true
@@ -609,7 +609,7 @@ jQuery(document).ready(function ($) {
 				action: 'learnpress_be_teacher'
 			},
 			success: function () {
-				alert('You Are An Instructor Now');
+				alert(learn_press_js_localize.you_are_instructor_now);
 				setTimeout(function () {
 					location.reload();
 				}, 500);

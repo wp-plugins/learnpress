@@ -185,7 +185,7 @@ if ( !class_exists( 'LPR_Course_Post_Type' ) ) {
 					// ),
 					array(
 						'name' => __( 'Number of Students Enrolled', 'learn_press' ),
-						'id'   => "{$prefix}course_number_student",
+						'id'   => "{$prefix}course_student",
 						'type' => 'number',
 						'desc' => __('The number of students took this course', 'learn_press'),
 						'std'  => 0,
@@ -224,8 +224,7 @@ if ( !class_exists( 'LPR_Course_Post_Type' ) ) {
 						'name'    => __( 'Course Final Quiz', 'learn_press' ),
 						'id'      => "{$prefix}course_final",
 						'type'    => 'radio',
-						'desc'    => __('If Final Quiz option is checked, then the course will be assessed by result of the last quiz, else the course
-                                      will be assessed by the progress of learning lessons', 'learn_press'),
+						'desc'    => __('If Final Quiz option is checked, then the course will be assessed by result of the last quiz, else the course will be assessed by the progress of learning lessons', 'learn_press'),
 						'options' => array(
 							'no'  => __( 'No Final Quiz', 'learn_press' ),
                             'yes' => __( 'Using Final Quiz', 'learn_press' )

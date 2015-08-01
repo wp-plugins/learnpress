@@ -52,7 +52,7 @@ class LPR_Shortcodes{
         }
 
         if( ! empty( $_REQUEST['become-a-teacher-send'] ) ){
-            return __( 'Your request has been sent! We will get in touch with you soon!' );
+            return __( 'Your request has been sent! We will get in touch with you soon!', 'learn_press' );
         }
         get_currentuserinfo();
         $atts = shortcode_atts(
@@ -111,6 +111,7 @@ class LPR_Shortcodes{
                         if ( code.indexOf( '<!--LPR_END-->' ) >= 0 )
                             code = code.split( '<!--LPR_END-->' )[0];
                         var result = $.parseJSON( code );
+                        return;
                         if( ! result.error.length ){
                             var url = window.location.href;
                             if( url.indexOf('?') != -1 ) url += '&'
