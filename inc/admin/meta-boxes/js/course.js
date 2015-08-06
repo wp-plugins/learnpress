@@ -79,6 +79,7 @@ var $doc = $(document),
 	$quizForm = null,
 	$lessonForm = null,
 	$quickQuizForm = null,
+	$quickAssignmentForm = null,
 	$quickLessonForm = null,
     edittext = false,
 	select2Options = {
@@ -423,6 +424,76 @@ function showQuickAddQuiz(){
 
 }
 
+function showQuickAddAssignment(){
+    var $button = $(this),
+        $wrap = $button.parent();
+    if( !$quickAssignmentForm ){        
+        $quickAssignmentForm = $( wp.template('quick-add-assignment')({}) ).appendTo( $body );
+        $('input', $quickAssignmentForm)
+            .on('keyup', function(e){       
+                if( e.keyCode == 13 ){
+                    $('button[data-action="add"]', $quickAssignmentForm).trigger('click');
+                }else if(e.keyCode == 27){
+                    hideBlock();
+                }
+            });
+        $quickAssignmentForm.on('click', 'button', function(){
+            var action = $(this).data('action');
+            switch( action ){
+                case 'cancel':
+                    hideBlock();
+                    break;
+                case 'add':
+                    var $input = $(this).siblings('input')
+                    if( !$input.val() ) return;
+                    $quickAssignmentForm.addClass('working');
+                    $input.attr('disabled', true);
+                    ajaxAddAssignment( $quickAssignmentForm.data('button').parent().siblings('.lpr-section-quiz-less'), $input.val())
+                    break;
+            }   
+        })
+    }    
+    $quickAssignmentForm.data('button', $button);
+    showBlock().data('form', $quickAssignmentForm);    
+    var position = $(this).offset();
+    $quickAssignmentForm
+        .show()
+        .css({opacity: 0})
+        .css({
+            left: position.left,
+            top: position.top - $quickAssignmentForm.outerHeight() - 5
+        }).css({
+            opacity: 1  
+        });
+    $('input', $quickAssignmentForm).fadeIn(200, function(){ $(this).removeAttr('disabled').focus().val('');})
+}
+
+function ajaxAddAssignment( $sec, name ){
+    $.post(ajaxurl, {action : 'lpr_quick_add_assignment', type: 'assignment', name: name, course_id: course_id}, function(res){
+        if( res ){
+            res = res.split('__LPR_JSON__');
+            res = res[res.length - 1];
+            try{
+                res = JSON.parse( res );
+            }catch(e){ res = {}}
+        }
+        if( res.ID ){
+            var $item = $( wp.template('section-quiz-lesson')({title: res.post_title, id: res.ID, type: 'assignment'}) ).hide();
+            $sec.append($item);
+            $item.fadeIn(750);
+            $quickAssignmentForm.removeClass('working');
+            hideBlock();
+
+            ajaxUpdate({
+                success: function( res ){
+                    toastr["success"](thim_course_localize.add_new_assignment)
+                }
+            });
+
+        }
+    }, 'text')
+}
+
 function ajaxAddLesson( $sec, name ){
 	$.post( ajaxurl, {action : 'lpr_quick_add', type: 'lesson', name: name, course_id: course_id}, function(res){
 
@@ -501,6 +572,9 @@ function addActions( evt ){
 		case 'quick-add-quiz':
 			showQuickAddQuiz.call(this);
 			break;
+		case 'quick-add-assignment':            
+            showQuickAddAssignment.call(this);
+            break;		
 	}
 
 }
@@ -629,7 +703,7 @@ function moveToSection($sec){
         }
     }
 }
-function _ready(){
+function _ready(){	
     $postbox = $('#course_curriculum');
 	$section = $('.lpr-curriculum-sections');
     var $toggleAll = $('.lpr-course-curriculum-toggle', $postbox).css("display", "inline-block");

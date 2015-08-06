@@ -63,12 +63,12 @@ We are developing and improving LearnPress day by day and bringing new features 
 
 **Premium add-ons for LearnPress WordPress LMS Plugin:**
 
-- [myCRED add-on for LearnPress](http://thimpress.com/shop/mycred-add-on-for-learnpress/) - adding myCRED support for LearnPress WordPress LMS plugin, you can add badges, point system to your eLearning WordPress site using LearnPress + myCRED add-on.
-- [Certificates add-on for LearnPress](http://thimpress.com/shop/certificates-add-on-for-learnpress/) - adding drag & drop certificates builder as well as selecting designed certificate for each LMS course, your student will get particular certificate when they finished a course.
-- [Co-instructors add-on for LearnPress](http://thimpress.com/shop/co-instructors-add-on-for-learnpress/) - multiple instructors support for each LMS course.
-- [Collections add-on for LearnPress](http://thimpress.com/shop/collections-add-on-for-learnpress/) - making LMS courses collection by selecting number of courses, this is helpful if you want to combine multiple LMS courses into a collection for a group of skills.
-- [Stripe Payment method for LearnPress](http://thimpress.com/shop/stripe-add-on-for-learnpress/) - Stripe payment method for LearnPress WordPress LMS Plugin.
-- [WooCommerce add-on for LearnPress](http://thimpress.com/shop/woocommerce-add-on-for-learnpress/) - using WooCommerce as payment gateway for LearnPress WordPress LMS Plugin.
+- [myCRED add-on for LearnPress](http://thimpress.com/product/mycred-add-on-for-learnpress/) - adding myCRED support for LearnPress WordPress LMS plugin, you can add badges, point system to your eLearning WordPress site using LearnPress + myCRED add-on.
+- [Certificates add-on for LearnPress](http://thimpress.com/product/certificates-add-on-for-learnpress/) - adding drag & drop certificates builder as well as selecting designed certificate for each LMS course, your student will get particular certificate when they finished a course.
+- [Co-instructors add-on for LearnPress](http://thimpress.com/product/co-instructors-add-on-for-learnpress/) - multiple instructors support for each LMS course.
+- [Collections add-on for LearnPress](http://thimpress.com/product/collections-add-on-for-learnpress/) - making LMS courses collection by selecting number of courses, this is helpful if you want to combine multiple LMS courses into a collection for a group of skills.
+- [Stripe Payment method for LearnPress](http://thimpress.com/product/stripe-add-on-for-learnpress/) - Stripe payment method for LearnPress WordPress LMS Plugin.
+- [WooCommerce add-on for LearnPress](http://thimpress.com/product/woocommerce-add-on-for-learnpress/) - using WooCommerce as payment gateway for LearnPress WordPress LMS Plugin.
 
 **WordPress LMS Plugin - LearnPress ROADMAP:**
 
