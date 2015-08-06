@@ -136,7 +136,7 @@ class LPR_Assets {
 		learn_press_enqueue_script( "<script>var ajaxurl='" . admin_url( 'admin-ajax.php' ) . "';</script>", true );
 
 		global $post;
-		if ( !in_array( $post->post_type, array( 'lpr_course', 'lpr_quiz', 'lpr_lesson' ) ) ) {
+		if ( !in_array( $post->post_type, array( 'lpr_course', 'lpr_quiz', 'lpr_lesson', 'lpr_assignment' ) ) ) {
 			return;
 		}
 

@@ -68,7 +68,9 @@ We are developing and improving LearnPress day by day and bringing new features 
 - [Co-instructors add-on for LearnPress](http://thimpress.com/product/co-instructors-add-on-for-learnpress/) - multiple instructors support for each LMS course.
 - [Collections add-on for LearnPress](http://thimpress.com/product/collections-add-on-for-learnpress/) - making LMS courses collection by selecting number of courses, this is helpful if you want to combine multiple LMS courses into a collection for a group of skills.
 - [Stripe Payment method for LearnPress](http://thimpress.com/product/stripe-add-on-for-learnpress/) - Stripe payment method for LearnPress WordPress LMS Plugin.
-- [WooCommerce add-on for LearnPress](http://thimpress.com/product/woocommerce-add-on-for-learnpress/) - using WooCommerce as payment gateway for LearnPress WordPress LMS Plugin.
+- [WooCommerce add-on for LearnPress](http://thimpress.com/product/woocommerce-add-on-for-learnpress/) - using WooCommerce as payment gateway for LearnPress WordPress LMS Plugin.  
+- [Content Drip add-on for LearnPress](http://thimpress.com/product/content-drip-add-on-for-learnpress/) - the feature to restrict the access of student to each lesson by progress, or time.
+- [Sorting Choices question type for LearnPress](http://thimpress.com/product/sorting-choice-add-on-for-learnpress/) - another interactive question type for LearnPress.
 
 **WordPress LMS Plugin - LearnPress ROADMAP:**
 

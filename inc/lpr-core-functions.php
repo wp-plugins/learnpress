@@ -943,7 +943,7 @@ function learn_press_template_loader( $template ) {
 					$find[] = 'learnpress/' . $file;
 				} else {
 					if ( get_post_type() == 'lpr_assignment' ) {
-						die;
+						echo "hahaha";						
 						$file   = 'single-assignment.php';
 						$find[] = $file;
 						$find[] = 'learnpress/' . $file;
