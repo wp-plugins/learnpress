@@ -28,20 +28,24 @@ if ( !class_exists( 'RWMB_Course_lesson_Quiz_Field' ) ) {
 
 			LPR_Admin_Assets::add_localize(
                 array(
-                    'confirm_remove_section_lesson' => __( 'Do you want to remove this lesson permanently?' ),
-                    'confirm_remove_section_quiz'   => __( 'Do you want to remove this quiz permanently?' ),
-                    'confirm_remove_section'        => __( 'Do you want to remove this section permanently?' ),
-                    'add_new_quiz'                  => __( 'New quiz added' ),
-                    'add_new_lesson'                => __( 'New lesson added' ),
-                    'add_new_section'               => __( 'New section added' ),
-                    'remove_section_lesson'         => __( 'The lesson removed' ),
-                    'remove_section_quiz'           => __( 'The quiz removed' ),
-                    'remove_section'                => __( 'The section removed' ),
-                    'section_ordered'               => __( 'The ordering completed' ),
-                    'add_lesson_to_section'         => __( 'Lesson added to section complete!' ),
-                    'add_quiz_to_section'           => __( 'Quiz added to section complete!' ),
-                    'update_lesson_quiz'            => __( '%s updated' ),
-                    'quick_edit_name'               => __( 'Click to quick edit name' )
+                    'confirm_remove_section_lesson' => __( 'Do you want to remove this lesson permanently?', 'learn_press' ),
+                    'confirm_remove_section_quiz'   => __( 'Do you want to remove this quiz permanently?', 'learn_press' ),                    
+                    'confirm_remove_section'        => __( 'Do you want to remove this section permanently?', 'learn_press' ),                    
+                    'add_new_quiz'                  => __( 'New quiz added', 'learn_press' ),
+                    'add_new_lesson'                => __( 'New lesson added', 'learn_press' ),
+                    'add_new_section'               => __( 'New section added', 'learn_press' ),
+                    'remove_section_lesson'         => __( 'The lesson removed', 'learn_press' ),
+                    'remove_section_quiz'           => __( 'The quiz removed', 'learn_press' ),
+                    'remove_section'                => __( 'The section removed', 'learn_press' ),
+                    'section_ordered'               => __( 'The ordering completed', 'learn_press' ),
+                    'add_lesson_to_section'         => __( 'Lesson added to section complete!', 'learn_press' ),
+                    'add_quiz_to_section'           => __( 'Quiz added to section complete!', 'learn_press' ),
+                    'update_lesson_quiz'            => __( '%s updated', 'learn_press' ),
+                    'quick_edit_name'               => __( 'Click to quick edit name', 'learn_press' ),
+                    'confirm_remove_section_assignment' => __( 'Do you want to remove this assignment permanently', 'learn_press' ),
+                    'add_new_assignment' 			=> __( 'New assignment added', 'learn_press' ),
+                    'remove_section_assignment'		=> __( 'The assignment removed', 'learn_press' ),
+                    'add_assignment_to_section'		=> __( 'Assignment added to section complete!', 'learn_press' )
                 ), null, 'thim-course'
             );
 		}
@@ -130,6 +134,7 @@ if ( !class_exists( 'RWMB_Course_lesson_Quiz_Field' ) ) {
 												$item = $items[$id];
 												if ( 'lpr_quiz' == $item->post_type ) $exclude_quiz[] = $item->ID;
 												if ( 'lpr_lesson' == $item->post_type ) $exclude_lesson[] = $item->ID;
+												if ( 'lpr_assignment' == $item->post_type ) $exclude_lesson[] = $item->ID;
 												?>
 												<li class="lpr-<?php echo $item->post_type; ?>" data-id="<?php echo $item->ID; ?>" data-type="<?php echo $item->post_type; ?>">
 													<?php if ( 'lpr_quiz' == $item->post_type ) { ?>

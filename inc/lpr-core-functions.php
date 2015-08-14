@@ -322,7 +322,7 @@ function learn_press_pre_get_items( $query ) {
 	global $pagenow;
 	global $wpdb;
 	if ( current_user_can( 'lpr_teacher' ) && is_admin() && $pagenow == 'edit.php' ) {
-		if ( in_array( $post_type, array( 'lpr_course', 'lpr_lesson', 'lpr_quiz', 'lpr_question' ) ) ) {
+		if ( in_array( $post_type, array( 'lpr_course', 'lpr_lesson', 'lpr_quiz', 'lpr_question', 'lpr_assignment' ) ) ) {
 			$items = $wpdb->get_col(
 				$wpdb->prepare(
 					"SELECT ID FROM $wpdb->posts
@@ -911,11 +911,12 @@ function learn_press_get_lessons( $course_id ) {
 
 add_filter( 'template_include', 'learn_press_template_loader' );
 function learn_press_template_loader( $template ) {
-    //return $template;
+    //return $template;    
 	$file = '';
+	// die( get_post_type() );
 
 	if ( ( $page_id = learn_press_get_page_id( 'taken_course_confirm' ) ) && is_page( $page_id ) ) {
-		if ( !learn_press_user_can_view_order( !empty( $_REQUEST['order_id'] ) ? $_REQUEST['order_id'] : 0 ) ) {
+		if ( !learn_press_user_can_view_order( !empty( $_REQUEST['order_id'] ) ? $_REQUEST['order_id'] : 0 ) ) {			
 			learn_press_404_page();
 		}
 		global $post;
@@ -937,13 +938,12 @@ function learn_press_template_loader( $template ) {
 				$find[] = $file;
 				$find[] = 'learnpress/' . $file;
 			} else {
-				if ( get_post_type() == 'lpr_quiz' ) {
+				if ( get_post_type() == 'lpr_quiz' ) {					
 					$file   = 'single-quiz.php';
 					$find[] = $file;
 					$find[] = 'learnpress/' . $file;
 				} else {
-					if ( get_post_type() == 'lpr_assignment' ) {
-						echo "hahaha";						
+					if ( get_post_type() == 'lpr_assignment' ) {												
 						$file   = 'single-assignment.php';
 						$find[] = $file;
 						$find[] = 'learnpress/' . $file;

@@ -1471,6 +1471,39 @@ function learn_press_user_can_view_quiz( $quiz_id = null, $user_id = null  ) {
 }
 
 /**
+ * Check to see if user can view a assignment or not
+ *
+ * @param int $user_id
+ * @param int $assignment_id
+ * @return boolean
+ */
+function learn_press_user_can_view_assignment( $assignment_id = null, $user_id = null  ) {
+	if ( !$user_id ) {
+		$user_id = get_current_user_id();
+	}
+	if ( !$assignment_id ) {
+		global $assignment;
+		$assignment_id = $assignment ? $assignment->ID : 0;
+	}
+
+	if ( !$assignment_id ) return false;
+	$course_id = get_post_meta( $assignment_id, '_lpr_course', true );
+
+    $return = false;
+    $enrolled_require = get_post_meta( $course_id, '_lpr_course_enrolled_require', true );
+
+    // check enrolled require
+    if( ! $enrolled_require || $enrolled_require == 'no' ){
+        $return = true;
+    }else{
+        if( learn_press_is_enrolled_course( $course_id ) ){ // user has enrolled course
+            $return = true;
+        }
+    }
+    return apply_filters( 'learn_press_user_can_view_assignment', $return, $assignment_id, $user_id );
+}
+
+/**
  * Short function to check if a lesson id is not passed to a function
  * then try to get it from $_REQUEST
  *

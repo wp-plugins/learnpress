@@ -758,7 +758,12 @@ function _ready(){
 				id = $item.data('id'),
 				text = $('span.lpr-title', $item).text(),
 				type = $item.data('type').replace(/lpr_/, ''),
-				msg = type == 'lesson' ? thim_course_localize.confirm_remove_section_lesson : thim_course_localize.confirm_remove_section_quiz;
+				msg = '';				
+				if( type == 'lesson' ) {
+					msg = thim_course_localize.confirm_remove_section_lesson;
+				} else if (  type == 'quiz' ) {					
+					msg = thim_course_localize.confirm_remove_section_quiz;
+				} else return;
 			if( !confirm ( msg ) ) return;
 			var option = $('<option />');
 			option.html( text ).attr( 'value', id );

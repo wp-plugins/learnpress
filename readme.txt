@@ -158,6 +158,9 @@ https://www.transifex.com/projects/p/learnpress/
 
 == Changelog ==  
 
+= 0.9.12 =  
+- Support languages: Italy, Indonesia, Germany
+
 = 0.9.11 =  
 - Fixed resets all user settings back to default when re-active plugin  
 - Fixed certificates trigger error "header already sent" when saving template  
