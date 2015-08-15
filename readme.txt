@@ -72,6 +72,16 @@ We are developing and improving LearnPress day by day and bringing new features 
 - [Content Drip add-on for LearnPress](http://thimpress.com/product/content-drip-add-on-for-learnpress/) - the feature to restrict the access of student to each lesson by progress, or time.
 - [Sorting Choices question type for LearnPress](http://thimpress.com/product/sorting-choice-add-on-for-learnpress/) - another interactive question type for LearnPress.
 
+**LearnPress have been translated into the following languages:**  
+1. English
+2. French
+3. Indonesian
+4. Italian
+5. German
+6. Polish
+7. Russian
+8. Dutch
+
 **WordPress LMS Plugin - LearnPress ROADMAP:**
 
 - Payment Method support (first priority)
@@ -159,7 +169,7 @@ https://www.transifex.com/projects/p/learnpress/
 == Changelog ==  
 
 = 0.9.12 =  
-- Support languages: Italy, Indonesia, Germany
+- Support languages: Italian, Indonesian, German
 
 = 0.9.11 =  
 - Fixed resets all user settings back to default when re-active plugin  
